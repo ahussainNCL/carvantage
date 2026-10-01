@@ -22,4 +22,16 @@
 
   var latest = U.available().sort(function (a, b) { return b.added.localeCompare(a.added); }).slice(0, 6);
   document.getElementById("latestGrid").innerHTML = latest.map(U.carCard).join("");
+
+  // Structured data for the business, built from SITE so it never drifts from the page
+  var S = window.SITE, ld = document.createElement("script"); ld.type = "application/ld+json";
+  ld.textContent = JSON.stringify({
+    "@context": "https://schema.org", "@type": "AutoDealer",
+    name: S.name, url: S.url || location.origin, telephone: S.phone, email: S.email,
+    address: { "@type": "PostalAddress", addressLocality: S.town, addressCountry: "GB" },
+    areaServed: S.area, description: "Used cars from " + U.gbp(S.minPrice) + " to " + U.gbp(S.maxPrice) + ". History checked, faults listed, MOT date up front.",
+    openingHours: "Mo-Su 09:00-20:00", priceRange: U.gbp(S.minPrice) + " - " + U.gbp(S.maxPrice),
+    sameAs: S.instagram ? ["https://instagram.com/" + S.instagram] : []
+  });
+  document.head.appendChild(ld);
 })();

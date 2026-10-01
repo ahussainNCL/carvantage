@@ -3,9 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#F4F4F2">
+<meta name="theme-color" content="#0E1013">
 <title>Carvantage · Honest used cars, shown properly</title>
-<meta name="description" content="Used cars from £1,000 to £5,000. History checked, faults listed, MOT date up front. Viewings seven days a week.">
+<meta name="description" content="Used cars from £1,000 to £5,000 in Altrincham. History checked, faults listed, MOT date up front. Viewings seven days a week.">
+<link rel="canonical" href="https://a.carvantage.uk/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Carvantage">
+<meta property="og:title" content="Carvantage · Honest used cars, shown properly">
+<meta property="og:description" content="Used cars from £1,000 to £5,000 in Altrincham. History checked, faults listed, MOT date up front.">
+<meta property="og:url" content="https://a.carvantage.uk/">
+<meta property="og:image" content="https://a.carvantage.uk/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,8 +36,8 @@
             <a class="btn outline lg" href="sell.html">Sell us your car</a>
           </div>
         </div>
-        <div class="hero-media vf todo-text">
-          <div><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Hero photo: your best car, close up</span></div>
+        <div class="hero-media vf" data-photo="heroPhoto" data-alt="One of our cars, photographed close up">
+          <div><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Honest cars · <span data-cfg="town"></span></span></div>
         </div>
       </div>
       <form class="search" id="search" action="cars.html" method="get" aria-labelledby="search-title">
@@ -127,7 +135,7 @@
             <li>Same honest valuation as buying outright</li>
             <li>One trip, drive away in the new one</li>
           </ul>
-          <div><a class="btn outline" href="sell.html?px=1">Value my part exchange</a></div>
+          <div><a class="btn outline" href="sell.html?px=">Value my part exchange</a></div>
         </div>
       </div>
     </div>
@@ -138,7 +146,7 @@
       <div class="about-main">
         <div class="sec-head"><div><p class="eyebrow">Who you're buying from</p><h2>Hello, I'm <span data-cfg="owner"></span></h2></div></div>
         <div class="bio">
-          <div class="photo vf todo-text">Owner photo<br>goes here</div>
+          <div class="photo vf" data-photo="ownerPhoto" data-optional data-alt="" hidden>Owner photo<br>goes here</div>
           <div style="display:grid;gap:var(--s4)">
             <blockquote class="todo-text">"I started Carvantage because I was fed up of seeing people drive an hour to look at a car that turned out to be nothing like the advert."</blockquote>
             <p class="todo-text">Short bio goes here: how long you've been doing this, what you did before, why you sell the cars you sell, and where people can find you. Two or three sentences in plain words.</p>

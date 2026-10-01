@@ -1,18 +1,25 @@
 /* Shared site code: settings, header/footer, helpers. Loads on every page. */
 (function () {
-  /* ---- Settings: edit these ---- */
+  /* ---- Settings: edit these ----
+     BEFORE GOING LIVE: phone and whatsapp below are dummy numbers (07700 900xxx is a
+     reserved range that never connects) and the email domain does not match the site
+     domain in CNAME. Replace all three, or every "call us" and "WhatsApp us" button on
+     the site goes nowhere. */
   window.SITE = {
     draft: false,                             // true shows dashed boxes around things to fill in
     name: "Carvantage",
     tagline: "Look closer",
+    url: "https://a.carvantage.uk",           // public address, no trailing slash (used for sharing links)
     town: "Altrincham",                       // where the cars are
     area: "Greater Manchester and Cheshire",  // wider area for the hero
     owner: "Abdullah",                        // owner's first name
-    phone: "07700 900123",                    // shown on the site
-    whatsapp: "447700900123",                 // digits only, international format
-    email: "hello@carvantage.co.uk",
+    phone: "07700 900123",                    // shown on the site. DUMMY: replace
+    whatsapp: "447700900123",                 // digits only, international format. DUMMY: replace
+    email: "hello@carvantage.co.uk",          // DUMMY: replace
     instagram: "carvantage",                  // handle without @
     viewings: "By appointment, seven days a week, usually 9am to 8pm. We'll send the exact location when you book.",
+    heroPhoto: "",                            // e.g. "assets/img/hero.jpg". Empty shows the brand panel
+    ownerPhoto: "",                           // e.g. "assets/img/owner.jpg". Empty hides the photo box
     minPrice: 1000, maxPrice: 5000,
     reviews: [
       /* { name: "Sam", car: "Ford Fiesta", text: "..." } */
@@ -23,7 +30,8 @@
   var ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 42V16h26M84 58v26H58" fill="none" stroke="#FF6A4D" stroke-width="8"/><path d="M62 36A20 20 0 1 0 62 64" fill="none" stroke="#F4F4F2" stroke-width="12"/></svg>';
   var WORDMARK = '<span class="wordmark" aria-hidden="true"><span>carvantage</span></span>';
   var WA = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>';
-  window.ICONS = { logo: ICON, wa: WA };
+  var CAR = '<svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg>';
+  window.ICONS = { logo: ICON, wa: WA, car: CAR };
 
   /* ---- Helpers ---- */
   var U = window.U = {
@@ -36,7 +44,8 @@
     motLabel: function (iso) {
       var d = new Date(iso), now = new Date();
       var months = (d.getFullYear() - now.getFullYear()) * 12 + d.getMonth() - now.getMonth();
-      return { text: "MOT to " + U.monthYear(iso), short: months < 6 };
+      var expired = d < now;
+      return { text: expired ? "MOT expired" : "MOT to " + U.monthYear(iso), date: expired ? "Expired" : U.monthYear(iso), short: months < 6, expired: expired };
     },
     title: function (c) { return c.year + " " + c.make + " " + c.model; },
     esc: function (s) { return String(s).replace(/[&<>"']/g, function (ch) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]; }); },
@@ -55,15 +64,15 @@
       return '<span class="tag' + (good ? " good" : "") + '">' + U.esc(f) + "</span>";
     }).join("");
     var photo = c.photos && c.photos[0]
-      ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" loading="lazy">'
-      : '<div class="placeholder"><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Photos coming soon</span></div>';
+      ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" width="800" height="600" loading="lazy" decoding="async">'
+      : '<div class="placeholder">' + CAR + '<span>Photos coming soon</span></div>';
     var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
     return '<article class="car-card is-' + c.status + '">' +
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +
       '<span class="status status-pill ' + c.status + '">' + statusWord + '</span></div>' +
       '<div class="body">' +
       '<div class="card-heading"><div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + '</p></div><p class="price num">' + U.gbp(c.price) + "</p></div>" +
-      '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>MOT to</dt><dd' + (mot.short ? ' class="short"' : '') + '>' + U.monthYear(c.mot) + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
+      '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>' + (mot.expired ? "MOT" : "MOT to") + '</dt><dd' + (mot.short ? ' class="short"' : '') + '>' + (mot.expired ? "Fresh one before sale" : U.monthYear(c.mot)) + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
       '<div class="tags">' + tags + "</div>" +
       "</div></article>";
   };
@@ -109,7 +118,42 @@
     if (S.draft && /town|area|owner|phone|email|instagram|viewings|bio/.test(key)) { el.classList.add("todo"); el.title = "Placeholder: set '" + key + "' in assets/js/site.js"; }
   });
   if (S.draft) document.body.classList.add("draft");
-  document.querySelectorAll(".todo-text").forEach(function (el) { if (S.draft) { el.classList.add("todo"); el.title = "Placeholder text: replace this"; } });
+  // Placeholder copy only ever shows in draft mode, so nothing half-written reaches the public site
+  document.querySelectorAll(".todo-text").forEach(function (el) {
+    if (S.draft) { el.classList.add("todo"); el.title = "Placeholder text: replace this"; } else { el.hidden = true; }
+  });
+  // Photo slots: show the image when a path is set, otherwise the brand panel (or nothing)
+  document.querySelectorAll("[data-photo]").forEach(function (el) {
+    var key = el.getAttribute("data-photo"), src = S[key];
+    if (src) { el.innerHTML = '<img src="' + U.esc(src) + '" alt="' + U.esc(el.getAttribute("data-alt") || "") + '" decoding="async">'; el.classList.add("has-photo"); el.hidden = false; }
+    else if (el.hasAttribute("data-optional")) { el.hidden = true; }
+    else if (S.draft) { el.classList.add("todo"); el.title = "Placeholder: set '" + key + "' in assets/js/site.js"; }
+  });
+
+  /* ---- Modal plumbing shared by the sheet and the lightbox: Esc closes, Tab stays inside, page doesn't scroll ---- */
+  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function modal(el, opts) {
+    var prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function close() {
+      el.remove(); document.removeEventListener("keydown", onKey); document.body.style.overflow = prevOverflow;
+      if (opts.onClose) opts.onClose();
+      if (opts.returnTo && opts.returnTo.focus) opts.returnTo.focus();
+    }
+    function onKey(e) {
+      if (e.key === "Escape") { close(); return; }
+      if (opts.onKey && opts.onKey(e) === false) return;
+      if (e.key !== "Tab") return;
+      var items = Array.prototype.filter.call(el.querySelectorAll(FOCUSABLE), function (i) { return i.offsetParent !== null; });
+      if (!items.length) { e.preventDefault(); return; }
+      var first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    document.addEventListener("keydown", onKey);
+    el.addEventListener("click", function (e) { if (e.target === el) close(); });
+    return close;
+  }
 
   /* ---- WhatsApp message sheet ---- */
   U.openSheet = function (opts) {
@@ -119,13 +163,50 @@
     el.innerHTML = '<div class="box"><div class="hd"><h3 id="sheet-title">' + U.esc(opts.title) + '</h3><button class="close" type="button" aria-label="Close">✕</button></div>' +
       (opts.body || "") + '<p class="small muted">' + (opts.note || "This opens WhatsApp with the message ready to send. You can edit it first.") + "</p></div>";
     document.body.appendChild(el);
-    function close() { el.remove(); document.removeEventListener("keydown", onKey); if (opts.returnTo) opts.returnTo.focus(); }
-    function onKey(e) { if (e.key === "Escape") close(); }
+    var close = modal(el, opts);
     el.querySelector(".close").addEventListener("click", close);
-    el.addEventListener("click", function (e) { if (e.target === el) close(); });
-    document.addEventListener("keydown", onKey);
     if (opts.onReady) opts.onReady(el, close);
     var first = el.querySelector("input, select, textarea, button:not(.close)"); if (first) first.focus();
+    return el;
+  };
+
+  /* ---- Lightbox: full-size photos, arrows / swipe to move, Esc to close ---- */
+  U.openLightbox = function (photos, start, opts) {
+    opts = opts || {};
+    var old = document.querySelector(".lightbox"); if (old) old.remove();
+    var i = Math.max(0, Math.min(start || 0, photos.length - 1)), n = photos.length;
+    var el = document.createElement("div");
+    el.className = "lightbox"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Photos");
+    el.innerHTML = '<div class="lb-top"><span class="lb-count num" aria-live="polite"></span><button class="lb-btn close" type="button" aria-label="Close">✕</button></div>' +
+      '<div class="lb-stage"><img alt="" decoding="async"></div>' +
+      (n > 1 ? '<button class="lb-btn prev" type="button" aria-label="Previous photo">‹</button><button class="lb-btn next" type="button" aria-label="Next photo">›</button>' : "") +
+      (opts.caption ? '<p class="lb-cap">' + U.esc(opts.caption) + "</p>" : "");
+    document.body.appendChild(el);
+    var img = el.querySelector("img"), countEl = el.querySelector(".lb-count");
+    function show(k) {
+      i = (k + n) % n;
+      img.src = photos[i]; img.alt = (opts.alt || "Photo") + " " + (i + 1) + " of " + n;
+      countEl.textContent = (i + 1) + " / " + n;
+      [i + 1, i - 1].forEach(function (j) { if (n > 1) { var pre = new Image(); pre.src = photos[(j + n) % n]; } });
+      if (opts.onChange) opts.onChange(i);
+    }
+    var close = modal(el, {
+      returnTo: opts.returnTo,
+      onKey: function (e) { if (e.key === "ArrowRight") show(i + 1); else if (e.key === "ArrowLeft") show(i - 1); }
+    });
+    el.querySelector(".close").addEventListener("click", close);
+    if (n > 1) {
+      el.querySelector(".prev").addEventListener("click", function () { show(i - 1); });
+      el.querySelector(".next").addEventListener("click", function () { show(i + 1); });
+      var x0 = null;
+      el.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+      el.addEventListener("touchend", function (e) {
+        if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
+        if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1);
+      });
+    }
+    show(i);
+    el.querySelector(".close").focus();
     return el;
   };
 

@@ -4,8 +4,11 @@ Static site, no build step. Open `index.html` or run `python3 -m http.server 808
 
 ## Editing
 
-- **Your details** (town, phone, WhatsApp number, email, Instagram, viewing hours): `assets/js/site.js`, the `SITE` object at the top. Set `draft: false` to remove the dashed placeholder boxes.
-- **Stock**: `assets/js/cars.js`. One object per car. Set `status` to `available`, `reserved` or `sold`. Put photo paths in `photos` (e.g. `assets/img/stock/ab12cde-1.jpg`); an empty list shows "Photos coming soon".
+- **Your details** (town, phone, WhatsApp number, email, Instagram, viewing hours): `assets/js/site.js`, the `SITE` object at the top. The phone, WhatsApp and email values in there are dummies: replace them before going live. Set `draft: true` while filling things in (dashed boxes mark placeholders); with `draft: false` any placeholder copy is hidden rather than shown to the public.
+- **Hero and owner photos**: set `heroPhoto` and `ownerPhoto` in `SITE` to image paths (e.g. `assets/img/hero.jpg`). Until then the hero shows the brand panel and the owner photo box is hidden.
+- **Stock**: `assets/js/cars.js`. One object per car. Set `status` to `available`, `reserved` or `sold`. Put photo paths in `photos` (e.g. `assets/img/stock/ford-fiesta-2014-1.jpg`); an empty list shows "Photos coming soon". A `sold` car stays on the site with a "Sold" banner and in the "Recently sold" strip, which is good for trust; delete the object once it's a few weeks old.
+- **Photos**: export at 1600×1200 (4:3, landscape) as JPEG, aim for under 250 KB each, name them `assets/img/stock/<car id>-<n>.jpg`. The first photo is the one on the cards. Condition notes can point at a photo number (`photo: 7`); that becomes a "Shown in photo 7" link that opens it.
+- **Site address**: `url` in `SITE` must match the domain in `CNAME` and the URLs in `sitemap.xml`. It's used for share previews and search listings.
 - **Reviews**: add to `SITE.reviews` in `site.js`; the section appears on the homepage once there's at least one.
 - **Owner bio and photo**: `index.html`, the `#about` section.
 - **Colours, type, spacing**: `assets/css/tokens.css` (the site uses a light editorial canvas with dark brand sections; change the "jobs" there, not the raw colours). Page styles: `assets/css/site.css`.
