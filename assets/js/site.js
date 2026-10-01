@@ -2,7 +2,7 @@
 (function () {
   /* ---- Settings: edit these ---- */
   window.SITE = {
-    draft: true,                              // true shows dashed boxes around things to fill in
+    draft: false,                             // true shows dashed boxes around things to fill in
     name: "Carvantage",
     tagline: "Look closer",
     town: "Altrincham",                       // where the cars are
@@ -20,7 +20,8 @@
   };
 
   var S = window.SITE;
-  var ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#23262B"/><path d="M20 44V20h24M80 56v24H56" fill="none" stroke="#FF6A4D" stroke-width="8"/><path d="M60 39A15 15 0 1 0 60 61" fill="none" stroke="#F4F4F2" stroke-width="11"/></svg>';
+  var ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 42V16h26M84 58v26H58" fill="none" stroke="#FF6A4D" stroke-width="8"/><path d="M62 36A20 20 0 1 0 62 64" fill="none" stroke="#F4F4F2" stroke-width="12"/></svg>';
+  var WORDMARK = '<span class="wordmark" aria-hidden="true"><span>carvantage</span></span>';
   var WA = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>';
   window.ICONS = { logo: ICON, wa: WA };
 
@@ -61,9 +62,8 @@
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +
       '<span class="status status-pill ' + c.status + '">' + statusWord + '</span></div>' +
       '<div class="body">' +
-      '<div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + "</p></div>" +
-      '<p class="price num">' + U.gbp(c.price) + "</p>" +
-      '<p class="facts num"><span>' + U.miles(c.miles) + "</span><span>" + c.fuel + "</span><span>" + c.gearbox + "</span><span class=\"mot\">" + mot.text + "</span></p>" +
+      '<div class="card-heading"><div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + '</p></div><p class="price num">' + U.gbp(c.price) + "</p></div>" +
+      '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>MOT to</dt><dd' + (mot.short ? ' class="short"' : '') + '>' + U.monthYear(c.mot) + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
       '<div class="tags">' + tags + "</div>" +
       "</div></article>";
   };
@@ -79,7 +79,7 @@
   if (head) {
     head.className = "site-head";
     head.innerHTML = (S.draft ? '<div class="draft-note"><div class="wrap"><span>Draft: things in <i></i> dashed boxes are placeholders to replace in <code>assets/js/site.js</code> and <code>cars.js</code>.</span></div></div>' : "") +
-      '<div class="wrap"><a class="lockup" href="index.html" aria-label="' + S.name + ' home">' + ICON + "<span>carvantage</span></a>" +
+      '<div class="wrap"><a class="lockup" href="index.html" aria-label="' + S.name + ' home">' + WORDMARK + "</a>" +
       '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>' +
       '<nav class="site-nav" id="site-nav" aria-label="Main">' + nav + "</nav>" +
       '<a class="btn wa sm" href="' + U.waLink("Hi " + S.owner + ", I'm looking at your cars on the website.") + '" target="_blank" rel="noopener" aria-label="WhatsApp us">' + WA + '<span class="t">WhatsApp us</span></a></div>';
@@ -93,7 +93,7 @@
   var foot = document.getElementById("site-foot");
   if (foot) {
     foot.className = "site-foot";
-    foot.innerHTML = '<div class="wrap"><a class="lockup" href="index.html" style="font-size:1.2rem">' + ICON + "<span>carvantage</span></a>" +
+    foot.innerHTML = '<div class="wrap"><a class="lockup" href="index.html" style="font-size:1.2rem">' + WORDMARK + "</a>" +
       "<nav aria-label=\"Footer\">" + nav + '<a href="mailto:' + S.email + '">' + S.email + "</a></nav>" +
       '<p class="legal">' + S.name + " is a sole trader selling used cars in <span data-cfg=\"town\"></span>. Prices include VAT where applicable. No admin fees. © " + new Date().getFullYear() + "</p></div>";
   }

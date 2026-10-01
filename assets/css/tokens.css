@@ -1,11 +1,9 @@
 /* Carvantage design tokens
-   Two layers: raw colours at the top, then named jobs that the site uses.
-   Change a job, not a raw colour, when a page needs something different.
-   The site is dark throughout: near-black brand bands, a dark graphite page,
-   and slightly lifted graphite cards. Coral is the one accent. */
+   The core UI is light and editorial, with near-black brand bands and coral
+   used as a precise signal colour. */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* ---- Raw colours (from the brand kit, v3, plus a dark scale) ---- */
   --black-1: #0E1013;      /* deepest: hero, footer, brand bands */
@@ -35,21 +33,21 @@
   --amber-700: #8F5A00;
   --red-700: #B3261E;
 
-  /* ---- Jobs: surfaces and text on the dark page ---- */
-  --bg: var(--graphite-0);
-  --surface: var(--graphite-1);
-  --surface-2: var(--graphite);
-  --text: var(--offwhite);
-  --text-2: var(--grey-300);
+  /* ---- Jobs: light editorial canvas ---- */
+  --bg: var(--offwhite);
+  --surface: var(--white);
+  --surface-2: var(--page-grey);
+  --text: var(--ink);
+  --text-2: var(--grey-600);
   --text-3: var(--grey-500);
-  --line: var(--graphite-line);
-  --line-strong: var(--grey-600);
-  --accent: var(--coral-bright);
+  --line: var(--grey-100);
+  --line-strong: var(--grey-200);
+  --accent: var(--coral-deep);
   --accent-bg: var(--coral-bright);
-  --accent-ink: var(--graphite);
-  --inverse: var(--offwhite);      /* off-white buttons, chips and badges on the dark page */
-  --inverse-hover: var(--offwhite-2);
-  --on-inverse: var(--black-1);
+  --accent-ink: var(--white);
+  --inverse: var(--ink);
+  --inverse-hover: var(--black-1);
+  --on-inverse: var(--offwhite);
 
   /* ---- Jobs: the near-black "brand" bands ---- */
   --brand: var(--black-1);
@@ -61,10 +59,10 @@
   --brand-accent: var(--coral-bright);
 
   /* ---- Jobs: states ---- */
-  --ok: var(--green-400);
-  --warn: var(--amber-400);
+  --ok: var(--green-700);
+  --warn: var(--amber-700);
   --sold: var(--grey-500);
-  --error: var(--red-400);
+  --error: var(--red-700);
   --focus: var(--coral-bright);
 
   /* ---- Type ---- */
@@ -101,5 +99,5 @@
   --w-page: 1120px;
 
   /* ---- Shadow ---- */
-  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 32px rgba(0, 0, 0, .35);
+  --shadow: 0 2px 5px rgba(14, 16, 19, .06), 0 18px 42px rgba(14, 16, 19, .10);
 }

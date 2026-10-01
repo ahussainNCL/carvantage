@@ -8,7 +8,7 @@ Static site, no build step. Open `index.html` or run `python3 -m http.server 808
 - **Stock**: `assets/js/cars.js`. One object per car. Set `status` to `available`, `reserved` or `sold`. Put photo paths in `photos` (e.g. `assets/img/stock/ab12cde-1.jpg`); an empty list shows "Photos coming soon".
 - **Reviews**: add to `SITE.reviews` in `site.js`; the section appears on the homepage once there's at least one.
 - **Owner bio and photo**: `index.html`, the `#about` section.
-- **Colours, type, spacing**: `assets/css/tokens.css` (the site is dark throughout; change the "jobs" there, not the raw colours). Page styles: `assets/css/site.css`.
+- **Colours, type, spacing**: `assets/css/tokens.css` (the site uses a light editorial canvas with dark brand sections; change the "jobs" there, not the raw colours). Page styles: `assets/css/site.css`.
 
 ## Pages
 
