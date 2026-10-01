@@ -11,7 +11,7 @@
     pxToggle.checked = true; pxBox.hidden = false;
     if (selectedCar) pxCar.value = px;
     document.getElementById("sellTitle").textContent = "Part exchange your car";
-    document.getElementById("sellLede").innerHTML = "Tell us about your car and we'll give you a price for it and the amount to pay on top for " + (selectedCar ? "the <b>" + U.esc(U.title(selectedCar)) + "</b>" : "one of our available cars") + ". It opens WhatsApp with everything ready to send.";
+    document.getElementById("sellLede").innerHTML = "Tell us about your car and we'll give you a price for it — with any deductions explained — and the amount to pay on top for " + (selectedCar ? "the <b>" + U.esc(U.title(selectedCar)) + "</b>" : "one of our available cars") + ". It opens WhatsApp ready to send.";
   }
   pxToggle.addEventListener("change", function () { pxBox.hidden = !pxToggle.checked; });
 
