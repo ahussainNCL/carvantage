@@ -144,11 +144,70 @@ body.draft .todo { outline: 2px dashed var(--coral); outline-offset: 3px; border
 .car-card .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--slow); }
 .car-card:hover .shot img { transform: scale(1.03); }
 .car-card .shot .mark { position: absolute; top: 14px; left: 14px; width: 28px; height: 28px; background: var(--brand); border-radius: var(--r1); padding: 3px; }
-.car-card .shot .placeholder { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 0; color: #717c85; font-family: var(--f-label); font-size: var(--t-1); letter-spacing: .08em; text-transform: uppercase; }
-.vehicle-placeholder { --placeholder-bg: var(--surface-2); }
-.vehicle-placeholder > svg { width: 100%; max-height: 100%; }
-.car-card .vehicle-placeholder > svg { width: 95%; margin-top: 4px; }
-.car-card .vehicle-placeholder > span { position: absolute; bottom: 12px; font-size: .75rem; color: #53616b; }
+.car-card .shot .placeholder { position: absolute; inset: 0; }
+/* Branded temporary panel — silhouette only, no fake car photos */
+.vehicle-placeholder {
+  --placeholder-bg: var(--surface-2);
+  --placeholder-ink: #5a6570;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  color: var(--placeholder-ink);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--coral-bright) 7%, transparent) 0%, transparent 42%),
+    linear-gradient(0deg, color-mix(in srgb, var(--brand) 4%, transparent), transparent 38%),
+    var(--placeholder-bg);
+}
+.vehicle-placeholder .placeholder-art {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: var(--s3) var(--s4) 0;
+}
+.vehicle-placeholder .placeholder-art svg {
+  width: 100%;
+  max-width: 420px;
+  max-height: 100%;
+  display: block;
+}
+.vehicle-placeholder .placeholder-copy {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  text-align: center;
+  padding: var(--s2) var(--s4) var(--s4);
+  z-index: 1;
+}
+.vehicle-placeholder .placeholder-title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(0.95rem, 2.6vw, 1.15rem);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.vehicle-placeholder .placeholder-meta {
+  margin: 0;
+  font-family: var(--f-label);
+  font-size: var(--t-1);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.vehicle-placeholder .placeholder-soon {
+  margin: 4px 0 0;
+  font-family: var(--f-label);
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--coral-deep);
+}
 .car-card .shot .placeholder .car-shape { width: 52%; height: auto; opacity: .5; }
 .placeholder svg .hub { fill: var(--brand-card); }
 /* brackets appear on hover and keyboard focus: "see details" */
@@ -447,8 +506,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .gallery .main::after { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
 .gallery .main img { width: 100%; height: 100%; object-fit: cover; }
 .gallery .main .mark { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; }
-.gallery .main .placeholder { display: grid; gap: var(--s3); justify-items: center; text-align: center; padding: var(--s6); }
-.gallery .main .placeholder svg { width: 40%; max-width: 220px; opacity: .5; }
+.gallery .main .placeholder { width: 100%; height: 100%; }
 .gallery .main .placeholder b { font-family: var(--f-label); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--on-brand-2); }
 .gallery .thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s2); list-style: none; margin: 0; padding: 0; }
 .gallery .thumbs button { display: block; width: 100%; aspect-ratio: 4/3; border: 2px solid transparent; border-radius: var(--r1); background: var(--surface-2); padding: 0; overflow: hidden; cursor: pointer; font-size: var(--t-1); color: var(--text-3); }
@@ -573,9 +631,13 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 /* The enquiry follows the gallery on mobile, before the longer history. */
 .gallery .main { background: var(--surface-2); }
-.gallery .main .placeholder { color: #65727c; width: 100%; padding: var(--s6); gap: var(--s2); }
-.gallery .main .vehicle-placeholder svg { width: 100%; max-width: 520px; opacity: 1; }
-.gallery .main .vehicle-placeholder > span { color: var(--text-2); font-family: var(--f-label); font-size: var(--t-1); letter-spacing: .08em; text-transform: uppercase; }
+.gallery .main .vehicle-placeholder {
+  --placeholder-bg: var(--surface-2);
+  padding: var(--s5);
+}
+.gallery .main .vehicle-placeholder .placeholder-art svg { max-width: 520px; }
+.gallery .main .vehicle-placeholder .placeholder-title { font-size: clamp(1.15rem, 3vw, 1.5rem); }
+.gallery .main .vehicle-placeholder .placeholder-soon { font-size: var(--t-1); letter-spacing: .1em; }
 .gallery .main .mark { background: var(--brand); border-radius: var(--r1); padding: 4px; }
 @media (max-width: 900px) {
   .car-layout { gap: var(--s6); }
