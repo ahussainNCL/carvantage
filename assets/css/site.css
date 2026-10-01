@@ -287,7 +287,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 /* ---- Homepage hero ---- */
 .hero { position: relative; background: var(--brand); color: var(--on-brand); overflow: hidden; border-bottom: 1px solid var(--brand-line); }
-.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 70% at 12% 10%, rgba(255, 106, 77, .14), transparent 70%), radial-gradient(40% 50% at 95% 100%, rgba(255, 106, 77, .06), transparent 70%); }
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(70% 80% at 12% 10%, rgba(255, 106, 77, .30), transparent 70%), radial-gradient(40% 50% at 95% 100%, rgba(255, 106, 77, .14), transparent 70%); }
 .hero .wrap { position: relative; }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(var(--s8), 6vw, var(--s12)); align-items: center; padding-block: clamp(var(--s9), 8vw, var(--s12)); }
 @media (max-width: 860px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
