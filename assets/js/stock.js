@@ -2,7 +2,8 @@
 (function () {
   var grid = document.getElementById("grid"), count = document.getElementById("count"),
       budget = document.getElementById("fBudget"), sort = document.getElementById("sort"),
-      groups = document.querySelectorAll("[data-filter]");
+      groups = document.querySelectorAll("[data-filter]"),
+      bar = document.getElementById("filters"), toggle = document.getElementById("filtersToggle"), toggleCount = document.getElementById("filtersCount");
   var state = { budget: U.param("budget") || "", body: U.param("body") || "", fuel: U.param("fuel") || "", gearbox: U.param("gearbox") || "", sort: U.param("sort") || "new" };
 
   function syncControls() {
@@ -32,7 +33,8 @@
     list.sort(sorters[state.sort] || sorters["new"]);
     // reserved cars go after available ones whatever the sort
     list.sort(function (a, b) { return (a.status === "reserved") - (b.status === "reserved"); });
-    var active = Object.keys(state).some(function (k) { return k !== "sort" && state[k]; });
+    var activeKeys = ["budget", "body", "fuel", "gearbox"].filter(function (k) { return state[k]; }), active = activeKeys.length > 0;
+    if (toggleCount) toggleCount.textContent = active ? activeKeys.length + " on" : "";
     count.textContent = list.length + (list.length === 1 ? " car" : " cars") + (active ? " match" : " in stock");
     if (!list.length) {
       grid.innerHTML = '<div class="empty"><h3>Nothing matches those filters right now</h3><p>Stock changes every week. Tell us what you\'re after and we\'ll message you when something suitable comes in, or widen the filters.</p><div class="btn-row"><button class="btn outline" type="button" id="clear">Clear filters</button><a class="btn dark" target="_blank" rel="noopener" href="' + U.waLink("Hi, I'm looking for a " + [state.fuel, state.gearbox, state.body].filter(Boolean).join(" ").toLowerCase() + (state.budget ? " up to " + U.gbp(state.budget) : "") + ". Can you let me know when you get one in?") + '">Ask us to look out for one</a></div></div>';
@@ -50,6 +52,12 @@
   });
   budget.addEventListener("change", function () { state.budget = budget.value; render(); });
   sort.addEventListener("change", function () { state.sort = sort.value; render(); });
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      var open = bar.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
   syncControls(); render();
 
   var sold = (window.CARS || []).filter(function (c) { return c.status === "sold"; });
