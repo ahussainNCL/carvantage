@@ -9,7 +9,7 @@
     draft: false,                             // true shows dashed boxes around things to fill in
     name: "Carvantage",
     tagline: "Look closer",
-    url: "https://a.carvantage.uk",           // public address, no trailing slash (used for sharing links)
+    url: "https://carvantage.uk",           // public address, no trailing slash (used for sharing links)
     town: "Altrincham",                       // where the cars are
     area: "Greater Manchester and Cheshire",  // wider area for the hero
     owner: "Abdullah",                        // owner's first name
