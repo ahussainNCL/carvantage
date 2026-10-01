@@ -429,7 +429,25 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .inspection-bottom a { display: grid; place-items: center; min-width: 44px; min-height: 44px; text-decoration: none; font-size: 1.75rem; color: var(--brand-accent); border: 1px solid #3a424a; border-radius: 50%; transition: background var(--fast); }
 .inspection-bottom a:hover { background: #ffffff0c; }
 @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 36px; } .hero h1 { font-size: clamp(1.875rem, 7vw, 3.25rem); max-width: none; } .hero-media { min-height: 350px; } .inspection-word { font-size: clamp(60px, 10vw, 90px); } .inspection-art { min-height: 250px; } .inspection-art img { width: min(100%, 560px); justify-self: center; margin-top: 24px; } .point-history { top: 20%; left: 34%; } .point-condition { bottom: 6%; } }
-@media (max-width: 560px) { .hero .wrap { padding-top: 36px; } .hero-copy { gap: var(--s4); } .hero h1 { font-size: clamp(1.75rem, 8.5vw, 2.35rem); letter-spacing: -0.03em; line-height: 1.15; } .hero .lede { font-size: var(--t1); } .hero-proof { gap: 8px 16px; font-size: var(--t-1); } .hero-media { min-height: 280px; } .inspection-top, .inspection-bottom { padding: 14px 16px; } .inspection-art { min-height: 220px; } .inspection-word { font-size: 14vw; } .inspection-point { font-size: .65rem; } .point-history { top: 23%; left: 34%; } .point-condition { right: 4%; bottom: 7%; } }
+@media (max-width: 560px) {
+  .hero .wrap { padding-top: 36px; }
+  .hero-copy { gap: var(--s4); }
+  /* Ease the three-line headline: smaller clamp, looser track, roomier leading */
+  .hero h1 { font-size: clamp(1.625rem, 7.2vw, 2.15rem); letter-spacing: -0.02em; line-height: 1.2; }
+  .hero .lede { font-size: var(--t1); }
+  /* Full-width equal CTAs, stacked with a clearer gap */
+  .hero .btn-row { flex-direction: column; align-items: stretch; gap: var(--s4); }
+  .hero .btn-row .btn { width: 100%; }
+  /* Quiet proof row: more space under CTAs, slightly smaller type */
+  .hero-proof { gap: 6px 14px; font-size: 0.75rem; margin-top: var(--s3); }
+  .hero-media { min-height: 280px; }
+  .inspection-top, .inspection-bottom { padding: 14px 16px; }
+  .inspection-art { min-height: 220px; }
+  .inspection-word { font-size: 14vw; }
+  .inspection-point { font-size: .65rem; }
+  .point-history { top: 23%; left: 34%; }
+  .point-condition { right: 4%; bottom: 7%; }
+}
 
 /* Search: a bright, simple place to start */
 .search { display: grid; grid-template-columns: minmax(150px, .7fr) minmax(0, 1.7fr) auto; gap: var(--s5); align-items: end; margin-top: 40px; padding: var(--s5) var(--s6); background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: var(--r3); }
