@@ -39,6 +39,7 @@
   --bg: var(--graphite-0);
   --surface: var(--graphite-1);
   --surface-2: var(--graphite);
+  --surface-band: #1E2126;      /* full-width "on-surface" sections, one step above the page */
   --text: var(--offwhite);
   --text-2: var(--grey-300);
   --text-3: var(--grey-500);
@@ -94,6 +95,7 @@
   /* ---- Motion ---- */
   --fast: 120ms;
   --slow: 240ms;
+  --ease: cubic-bezier(.2, .7, .2, 1);
 
   /* ---- Widths ---- */
   --w-narrow: 560px;

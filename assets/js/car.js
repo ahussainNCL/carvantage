@@ -61,7 +61,8 @@
   root.querySelectorAll(".thumbs button").forEach(function (b) {
     b.addEventListener("click", function () {
       var i = Number(b.getAttribute("data-i"));
-      document.getElementById("mainShot").querySelector("img").src = photos[i];
+      var img = document.getElementById("mainShot").querySelector("img");
+      img.src = photos[i]; img.classList.remove("swap"); void img.offsetWidth; img.classList.add("swap");
       root.querySelectorAll(".thumbs button").forEach(function (x) { x.setAttribute("aria-current", x === b); });
     });
   });
