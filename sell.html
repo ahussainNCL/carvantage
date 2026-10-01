@@ -39,7 +39,7 @@
           <li>We'll help with the V5C and tell the DVLA together.</li>
         </ul>
         <div class="panel on-brand">
-          <h3>Rather just talk?</h3>
+          <h2>Rather just talk?</h2>
           <p>Send a photo of the car and the registration on WhatsApp and we'll take it from there.</p>
           <div><a class="btn wa" data-cfg="whatsapp-link" data-text="Hi, I'd like an offer on my car." href="#" target="_blank" rel="noopener">WhatsApp us</a></div>
         </div>
@@ -56,7 +56,7 @@
               <span class="hint" id="regHint" hidden>That doesn't look like a UK registration, but send it anyway if it's right.</span>
             </div>
             <div class="field"><label for="mm">Make and model</label><input type="text" class="input" id="mm" name="mm" placeholder="e.g. Ford Fiesta Zetec" required><span class="error">Please tell us the make and model</span></div>
-            <div class="field"><label for="year">Year</label><input class="input" id="year" name="year" type="number" inputmode="numeric" min="1980" max="2027" step="1" placeholder="2014" required><span class="error">Please enter a year, e.g. 2014</span></div>
+            <div class="field"><label for="year">Year</label><input class="input" id="year" name="year" type="number" inputmode="numeric" min="1900" max="2027" step="1" placeholder="2014" required><span class="error">Please enter a year, e.g. 2014</span></div>
             <div class="field"><label for="miles">Mileage</label><input class="input" id="miles" name="miles" type="number" inputmode="numeric" min="0" max="500000" step="1" placeholder="78000" required><span class="error">Roughly is fine</span></div>
             <div class="field"><label for="mot">MOT runs out</label><input type="text" class="input" id="mot" name="mot" placeholder="e.g. March 2027, or expired"></div>
             <fieldset class="field full">
@@ -115,12 +115,12 @@
         </div>
 
         <div class="group">
-          <div class="msg error" id="formError" hidden>Please check the fields marked above.</div>
+          <div class="msg error" id="formError" role="alert" hidden>Please check the fields marked above.</div>
           <div class="btn-row">
             <button class="btn primary lg" type="submit" id="sendBtn">Get my offer on WhatsApp</button>
             <button class="btn outline lg" type="button" id="emailBtn">Send by email instead</button>
           </div>
-          <p class="small muted">We only use your details to make the offer. Nothing is stored on this website.</p>
+          <p class="small muted">Your form stays in this browser tab so you can come back to it. We only use your details to make the offer.</p>
         </div>
       </form>
     </div>

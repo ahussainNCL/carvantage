@@ -11,7 +11,7 @@
   document.getElementById("crumb").textContent = title;
 
   function placeholder() {
-    return '<div class="placeholder">' + ICONS.car + '<b>Photos coming soon</b><span class="small">Message us and we\'ll send a walkaround video today.</span></div>';
+    return U.carPlaceholder(c);
   }
   var photos = c.photos || [];
   var gallery = '<div class="gallery"><div class="main" id="mainShot">' +
@@ -22,15 +22,15 @@
   var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
   var banner = c.status === "reserved" ? '<div class="banner reserved"><span class="status-pill reserved">Reserved</span><p class="small">Someone has paid a deposit on this car. Message us and we\'ll let you know if it comes back up.</p></div>' :
                c.status === "sold" ? '<div class="banner sold"><span class="status-pill sold">Sold</span><p class="small">This one\'s gone. We get similar cars in most weeks.</p></div>' : "";
-  var waText = "Hi " + S.owner + ", I'm interested in the " + title + " " + c.trim + " (" + U.gbp(c.price) + ") on your website. Is it still available?";
+  var waText = "Hi " + S.owner + ", I'm interested in the " + title + " " + c.trim + " (" + U.gbp(c.price) + ") on your website. " + (c.status === 'reserved' ? 'Please let me know if it becomes available again.' : 'Is it still available?');
   var buybox = '<aside class="buybox">' +
     (banner || '<span class="status-pill available">' + statusWord + "</span>") +
     '<div><h1 style="font-size:var(--t4)">' + U.esc(title) + '</h1><p class="muted">' + U.esc(c.trim) + "</p></div>" +
     '<p class="price num">' + U.gbp(c.price) + "<small>No admin fees. Part exchange welcome.</small></p>" +
     (c.status === "sold" ? '<a class="btn dark" href="cars.html">See cars for sale</a>' :
-      '<button class="btn primary lg" type="button" id="viewBtn">Arrange a viewing</button>' +
+      (c.status === 'available' ? '<button class="btn primary lg" type="button" id="viewBtn">Arrange a viewing</button>' : '') +
       '<a class="btn wa" href="' + U.waLink(waText) + '" target="_blank" rel="noopener">' + ICONS.wa + "Ask about this car</a>" +
-      '<a class="btn outline" href="sell.html?px=' + U.esc(c.id) + '">Part exchange your car</a>') +
+      (c.status === 'available' ? '<a class="btn outline" href="sell.html?px=' + U.esc(c.id) + '">Part exchange your car</a>' : '')) +
     '<p class="px small muted">Viewings in <span data-cfg="town"></span>, seven days a week. Call or WhatsApp <a data-cfg="phone-link" href="#"></a>.</p>' +
     (c.status !== "sold" ? '<ul class="trust small">' +
       '<li><a class="link" href="' + U.waLink("Hi " + S.owner + ", could you send me the history check (HPI) report for the " + title + " " + c.trim + "?") + '" target="_blank" rel="noopener">Ask for the history check report</a></li>' +
@@ -42,7 +42,7 @@
 
   // "Shown in photo N" becomes a button when that photo exists, otherwise plain text
   var notes = c.notes && c.notes.length ? '<ul class="notes">' + c.notes.map(function (n) {
-    var ref = n.photo ? (photos[n.photo - 1] ? '<button type="button" class="note-photo" data-i="' + (n.photo - 1) + '">Shown in photo ' + n.photo + "</button>" : "<small>Shown in photo " + n.photo + "</small>") : "";
+    var ref = n.photo ? (photos[n.photo - 1] ? '<button type="button" class="note-photo" data-i="' + (n.photo - 1) + '">Shown in photo ' + n.photo + "</button>" : "") : "";
     return "<li><div>" + U.esc(n.text) + ref + "</div></li>";
   }).join("") + "</ul>" : '<p class="muted">Nothing to report on this one. If we find anything before you collect, we\'ll tell you.</p>';
   var history = c.history && c.history.length ? '<ul class="timeline">' + c.history.map(function (h) { return "<li><time>" + U.monthYear(h.date) + "</time><span>" + U.esc(h.text) + "</span></li>"; }).join("") + "</ul>" : '<p class="muted">Ask us for the full history folder.</p>';
@@ -62,9 +62,9 @@
   root.innerHTML = gallery + buybox + details;
 
   // Phone-only action bar so the price and the two main buttons are always one tap away
-  if (c.status !== "sold") {
+  if (c.status === "available") {
     var bar = document.createElement("div");
-    bar.className = "action-bar"; bar.setAttribute("aria-label", "Quick actions");
+    bar.className = "action-bar"; bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "Quick actions");
     bar.innerHTML = '<div class="wrap"><p class="price num">' + U.gbp(c.price) + '<small>' + U.esc(title) + '</small></p>' +
       '<a class="btn wa" href="' + U.waLink(waText) + '" target="_blank" rel="noopener" aria-label="Ask about this car on WhatsApp">' + ICONS.wa + '</a>' +
       '<button class="btn primary" type="button" id="viewBtnBar">Arrange a viewing</button></div>';
@@ -73,7 +73,8 @@
     var box = root.querySelector(".buybox");
     if ("IntersectionObserver" in window && box) {
       bar.classList.add("is-hidden");
-      new IntersectionObserver(function (entries) { bar.classList.toggle("is-hidden", entries[0].isIntersecting); }, { threshold: 0.2 }).observe(box);
+      bar.inert = true;
+      new IntersectionObserver(function (entries) { bar.classList.toggle("is-hidden", entries[0].isIntersecting); bar.inert = entries[0].isIntersecting; }, { threshold: 0.2 }).observe(box);
     }
   }
 

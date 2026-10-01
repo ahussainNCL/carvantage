@@ -4,9 +4,9 @@ Static site, no build step. Open `index.html` or run `python3 -m http.server 808
 
 ## Before going live
 
-1. Replace `phone`, `whatsapp` and `email` in `assets/js/site.js` (the ones in there are dummies).
+1. Confirm `phone` and `whatsapp` in `assets/js/site.js`. Set `email` if you want email enquiries; email links stay hidden while it is empty.
 2. Make sure `url` in `site.js`, the domain in `CNAME` and the URLs in `sitemap.xml` all match.
-3. Set `heroPhoto` and `ownerPhoto`, and write the bio in `index.html` (`#about`), then set `draft: false`.
+3. Optionally set `heroPhoto` and `ownerPhoto`, and update the introduction in `index.html` (`#about`). Without photos, the hero illustration and owner initials card are shown. Keep `draft: false` for the public site.
 4. Add real photos to each car in `assets/js/cars.js`.
 
 ## Checks
@@ -21,13 +21,14 @@ npx linkinator http://localhost:8080/ --recurse
 
 ## Editing
 
-- **Your details** (town, phone, WhatsApp number, email, Instagram, viewing hours): `assets/js/site.js`, the `SITE` object at the top. The phone, WhatsApp and email values in there are dummies: replace them before going live. Set `draft: true` while filling things in (dashed boxes mark placeholders); with `draft: false` any placeholder copy is hidden rather than shown to the public.
-- **Hero and owner photos**: set `heroPhoto` and `ownerPhoto` in `SITE` to image paths (e.g. `assets/img/hero.jpg`). Until then the hero shows the brand panel and the owner photo box is hidden.
+- **Your details** (town, phone, WhatsApp number, email, Instagram, viewing hours): `assets/js/site.js`, the `SITE` object at the top. Phone and WhatsApp use the configured business number. Email is optional; set a real address to enable its links. Set `draft: true` while filling things in (dashed boxes mark placeholders); with `draft: false` any placeholder copy is hidden rather than shown to the public.
+- **Hero and owner photos**: set `heroPhoto` and `ownerPhoto` in `SITE` to image paths (e.g. `assets/img/hero.jpg`). Until then the hero shows the brand illustration and the owner shows an initials card.
 - **Stock**: `assets/js/cars.js`. One object per car. Set `status` to `available`, `reserved` or `sold`. Put photo paths in `photos` (e.g. `assets/img/stock/ford-fiesta-2014-1.jpg`); an empty list shows "Photos coming soon". A `sold` car stays on the site with a "Sold" banner and in the "Recently sold" strip, which is good for trust; delete the object once it's a few weeks old.
 - **Photos**: export at 1600×1200 (4:3, landscape) as JPEG, aim for under 250 KB each, name them `assets/img/stock/<car id>-<n>.jpg`. The first photo is the one on the cards. Condition notes can point at a photo number (`photo: 7`); that becomes a "Shown in photo 7" link that opens it.
 - **Site address**: `url` in `SITE` must match the domain in `CNAME` and the URLs in `sitemap.xml`. It's used for share previews and search listings.
 - **Reviews**: add to `SITE.reviews` in `site.js`; the section appears on the homepage once there's at least one.
-- **Owner bio and photo**: `index.html`, the `#about` section.
+- **Owner introduction and initials card**: `index.html`, the `#about` section.
+- **Hero illustration**: `assets/img/closer-car.svg`. This is brand artwork; inventory photographs belong in each car's `photos` list.
 - **Fonts** are self-hosted in `assets/fonts/` (Sora, Barlow, Barlow Semi Condensed; SIL Open Font License) and declared in `assets/css/fonts.css`, so nothing is loaded from Google.
 - **Budget dropdowns** are generated from `minPrice` and `maxPrice` in `SITE`, in £1,000 steps.
 - **Colours, type, spacing**: `assets/css/tokens.css` (the site uses a light editorial canvas with dark brand sections; change the "jobs" there, not the raw colours). Page styles: `assets/css/site.css`.
@@ -35,8 +36,10 @@ npx linkinator http://localhost:8080/ --recurse
 ## Pages
 
 - `index.html` – homepage with search, promises, latest cars, process, sell/part-exchange, bio, contact
-- `cars.html` – browse with filters (budget, type, fuel, gearbox) and sort; filters live in the URL so links can be shared
+- `cars.html` – search by make/model/trim, filter by budget/type/fuel/gearbox, and sort; removable filters live in the URL and support browser back/forward. Filters collapse on mobile.
 - `car.html?id=…` – car page: photos, key facts, "what's wrong with it", service/MOT history, spec, arrange a viewing, ask on WhatsApp, part exchange
 - `sell.html` – sell your car / part exchange form; opens WhatsApp (or email) with the details filled in. `sell.html?px=<car id>` pre-selects a part exchange.
 
 Forms don't need a server: everything goes through WhatsApp or email.
+
+The homepage shows the three most recently added cars. Cars with no photos use a clearly labelled illustration. The viewing dialog supports keyboard focus, Escape to close, and focus return; the sell form checks required fields, year and mileage before preparing an enquiry. Selected photos are previews only and need to be sent separately in WhatsApp.

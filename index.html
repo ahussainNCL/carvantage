@@ -28,16 +28,24 @@
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow on-brand">Used cars · <span data-cfg="town"></span>, <span data-cfg="area"></span></p>
-          <h1>Every car shown properly, faults and all. <em>Look closer.</em></h1>
-          <p class="lede">Honest cars from <span class="num">£1,000</span> to <span class="num">£5,000</span>. History checked, MOT date up front, and every scuff photographed before you make the trip.</p>
+          <p class="eyebrow on-brand">Independent used cars · <span data-cfg="town"></span></p>
+          <h1>Good cars.<br>No surprises.<br><em>Look closer.</em></h1>
+          <p class="lede">Honest used cars from <span class="num">£1,000</span> to <span class="num">£5,000</span>. The history, the MOT, the little imperfections. All up front, before you make the trip.</p>
           <div class="btn-row">
-            <a class="btn primary lg" href="cars.html">See cars for sale</a>
-            <a class="btn outline lg" href="sell.html">Sell us your car</a>
+            <a class="btn primary" href="cars.html">Explore our cars <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a>
+            <a class="btn outline" href="sell.html">Sell your car</a>
           </div>
+          <ul class="hero-proof"><li>History checked</li><li>No admin fees</li><li>Part exchange welcome</li></ul>
         </div>
-        <div class="hero-media vf" data-photo="heroPhoto" data-alt="One of our cars, photographed close up">
-          <div><span data-icon="car"></span><span>Honest cars · <span data-cfg="town"></span></span></div>
+        <div class="hero-media" data-photo="heroPhoto" data-alt="One of our cars, photographed close up">
+          <div class="inspection-top"><span>The Carvantage standard</span><span class="inspection-index">No surprises</span></div>
+          <div class="inspection-art">
+            <span class="inspection-word" aria-hidden="true">CLOSER.</span>
+            <img src="assets/img/closer-car.svg" width="620" height="320" alt="" fetchpriority="high">
+            <span class="inspection-point point-history">History checked <i aria-hidden="true"></i></span>
+            <span class="inspection-point point-condition"><i aria-hidden="true"></i>Condition explained</span>
+          </div>
+          <div class="inspection-bottom"><span><i aria-hidden="true"></i> Every detail. Up front.</span><a href="#standard" aria-label="Read about the Carvantage standard"><svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div>
         </div>
       </div>
       <form class="search" id="search" action="cars.html" method="get" aria-labelledby="search-title">
@@ -59,7 +67,7 @@
         </div>
         <div class="go">
           <button class="btn primary" type="submit" id="searchBtn">Show cars</button>
-          <p class="count" id="searchCount"></p>
+          <p class="count" id="searchCount" aria-live="polite"></p>
         </div>
       </form>
     </div>
@@ -140,11 +148,12 @@
       <div class="about-main">
         <div class="sec-head"><div><p class="eyebrow">Who you're buying from</p><h2>Hello, I'm <span data-cfg="owner"></span></h2></div></div>
         <div class="bio">
-          <div class="photo vf" data-photo="ownerPhoto" data-optional data-alt="" hidden>Owner photo<br>goes here</div>
-          <div style="display:grid;gap:var(--s4)">
-            <blockquote class="todo-text">"I started Carvantage because I was fed up of seeing people drive an hour to look at a car that turned out to be nothing like the advert."</blockquote>
-            <p class="todo-text">Short bio goes here: how long you've been doing this, what you did before, why you sell the cars you sell, and where people can find you. Two or three sentences in plain words.</p>
+          <div class="owner-card" data-photo="ownerPhoto" data-alt="Abdullah, owner of Carvantage"><span class="owner-monogram" aria-hidden="true">A<span>.</span></span><span data-cfg="owner"></span><span class="small">Owner, Carvantage</span></div>
+          <div class="bio-copy">
+            <h3>A small business.<br>A straightforward way to buy.</h3>
             <p>Every car is bought, checked and listed by me. If you message, you're talking to me.</p>
+            <p>Ask for an extra photo, a walkaround video, or a closer look at the history. You'll deal with the same person from the first message to the handover.</p>
+            <a class="link arrow" data-cfg="whatsapp-link" href="#" target="_blank" rel="noopener">Say hello</a>
           </div>
         </div>
         <div id="reviews" hidden style="margin-top:var(--s9)">
@@ -168,11 +177,22 @@
             <div class="btn-row"><a class="btn outline sm" href="cars.html">Pick a car to view</a></div>
           </div>
           <div class="panel">
-            <p class="eyebrow">Email and Instagram</p>
+            <p class="eyebrow">Keep in touch</p>
             <p class="v"><a data-cfg="email-link" href="#" style="text-decoration:none"></a></p>
             <p>New stock goes on Instagram first, with walkaround videos: <a class="link" data-cfg="instagram-link" href="#" target="_blank" rel="noopener"></a></p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="questions">
+    <div class="wrap faq-layout">
+      <div><p class="eyebrow">Before you make the trip</p><h2>A few good questions.</h2><p class="muted">Something else on your mind? <a class="link" data-cfg="whatsapp-link" href="#" target="_blank" rel="noopener">Just ask us.</a></p></div>
+      <div class="faq-list">
+        <details><summary>Can I take a test drive?</summary><p>Yes. Book a viewing, have a proper look, and take a test drive. You're welcome to bring someone who knows cars. Message us beforehand to arrange the details.</p></details>
+        <details><summary>Do you take part exchange?</summary><p>Yes. Tell us about your current car and the car you're interested in. We'll give you a price for yours and the amount to pay on top. <a class="link" href="sell.html?px=1">Value your part exchange.</a></p></details>
+        <details><summary>What if the MOT is nearly due?</summary><p>Every listing shows the MOT date. If there's less than six months left, we'll put a fresh 12 months on before you collect.</p></details>
+        <details><summary>How do I arrange a viewing?</summary><p>Choose a car and tap “Arrange a viewing”, or message us on WhatsApp. Viewings are by appointment, seven days a week in <span data-cfg="town"></span>. We'll send the exact location when you book.</p></details>
       </div>
     </div>
   </section>
