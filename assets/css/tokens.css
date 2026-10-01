@@ -1,0 +1,89 @@
+/* Carvantage design tokens
+   Two layers: raw colours at the top, then named jobs that the site uses.
+   Change a job, not a raw colour, when a page needs something different. */
+
+:root {
+  /* ---- Raw colours (from the brand kit, v3) ---- */
+  --graphite: #23262B;
+  --graphite-2: #2B2F34;
+  --graphite-line: #3A3E44;
+  --coral: #E8452A;        /* signal coral: logo corners on light backgrounds */
+  --coral-deep: #C2361E;   /* darker coral: small text and links on light backgrounds (4.8:1 on page grey) */
+  --coral-bright: #FF6A4D; /* bright coral: buttons and highlights, graphite text on top (5.4:1) */
+  --offwhite: #F4F4F2;
+  --page-grey: #EFF0F0;
+  --white: #FFFFFF;
+  --grey-100: #E4E6E8;
+  --grey-300: #D8DADC;
+  --grey-500: #868B91;
+  --grey-600: #5F646A;
+  --grey-700: #5A5E64;
+  --ink: #202327;
+  --green-700: #2E7D4F;
+  --amber-700: #8F5A00;
+  --red-700: #B3261E;
+
+  /* ---- Jobs: surfaces and text on the light page ---- */
+  --bg: var(--page-grey);
+  --surface: var(--white);
+  --surface-2: var(--offwhite);
+  --text: var(--ink);
+  --text-2: var(--grey-700);
+  --text-3: var(--grey-600);
+  --line: var(--grey-300);
+  --line-strong: var(--grey-500);
+  --accent: var(--coral-deep);
+  --accent-bg: var(--coral-bright);
+  --accent-ink: var(--graphite);
+
+  /* ---- Jobs: the graphite "brand" panels ---- */
+  --brand: var(--graphite);
+  --brand-card: var(--graphite-2);
+  --brand-line: var(--graphite-line);
+  --on-brand: var(--offwhite);
+  --on-brand-2: #C3C6CB;
+  --on-brand-3: #A3A7AD;
+  --brand-accent: var(--coral-bright);
+
+  /* ---- Jobs: states ---- */
+  --ok: var(--green-700);
+  --warn: var(--amber-700);
+  --sold: var(--grey-600);
+  --error: var(--red-700);
+  --focus: var(--coral);
+
+  /* ---- Type ---- */
+  --f-display: "Sora", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Barlow", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --t-1: 0.8125rem;
+  --t0: 0.9375rem;
+  --t1: 1.0625rem;
+  --t2: 1.1875rem;
+  --t3: 1.375rem;
+  --t4: 1.625rem;
+  --t5: 2rem;
+  --t6: 2.5rem;
+  --t7: 3.25rem;
+  --lh-tight: 1.15;
+  --lh-body: 1.55;
+
+  /* ---- Space (4px grid) ---- */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px;
+  --s9: 48px; --s10: 64px; --s11: 80px; --s12: 96px;
+
+  /* ---- Radius ---- */
+  --r1: 4px; --r2: 6px; --r3: 10px; --r4: 14px; --r5: 20px; --r-pill: 999px;
+
+  /* ---- Motion ---- */
+  --fast: 120ms;
+  --slow: 240ms;
+
+  /* ---- Widths ---- */
+  --w-narrow: 560px;
+  --w-text: 860px;
+  --w-page: 1120px;
+
+  /* ---- Shadow ---- */
+  --shadow: 0 1px 2px rgba(32, 35, 39, .06), 0 8px 24px rgba(32, 35, 39, .06);
+}

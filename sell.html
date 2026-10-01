@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sell your car · Carvantage</title>
+<meta name="description" content="Get a straight offer for your car, or part exchange it against one of ours.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header id="site-head"></header>
+<main class="section tight">
+  <div class="wrap">
+    <div class="sell-layout">
+      <aside class="sell-aside">
+        <div>
+          <p class="eyebrow">We buy cars</p>
+          <h1 style="margin-top:var(--s3)" id="sellTitle">Sell us your car</h1>
+          <p class="lede" style="margin-top:var(--s4)" id="sellLede">Any make, any condition, up to around <span class="num">£5,000</span>. Fill this in and it opens WhatsApp with everything ready to send. You'll usually have an offer the same day.</p>
+        </div>
+        <ul class="ticks">
+          <li>No obligation, no haggling games. One straight price.</li>
+          <li>Paid by bank transfer before the keys change hands.</li>
+          <li>We come to you or you come to us, whichever is easier.</li>
+          <li>We'll help with the V5C and tell the DVLA together.</li>
+        </ul>
+        <div class="panel on-brand">
+          <h3>Rather just talk?</h3>
+          <p>Send a photo of the car and the registration on WhatsApp and we'll take it from there.</p>
+          <div><a class="btn wa" data-cfg="whatsapp-link" data-text="Hi, I'd like an offer on my car." href="#" target="_blank" rel="noopener">WhatsApp us</a></div>
+        </div>
+      </aside>
+
+      <form class="sell-form" id="sellForm" novalidate>
+        <div class="group">
+          <h2>Your car</h2>
+          <div class="form">
+            <div class="field full">
+              <label for="reg">Registration</label>
+              <div class="plate"><span class="band">UK</span><input id="reg" name="reg" autocomplete="off" placeholder="AB12 CDE" maxlength="8" required aria-describedby="regErr"></div>
+              <span class="error" id="regErr">Please enter the registration</span>
+            </div>
+            <div class="field"><label for="mm">Make and model</label><input class="input" id="mm" name="mm" placeholder="e.g. Ford Fiesta Zetec" required><span class="error">Please tell us the make and model</span></div>
+            <div class="field"><label for="year">Year</label><input class="input" id="year" name="year" inputmode="numeric" placeholder="2014" required><span class="error">Please enter the year</span></div>
+            <div class="field"><label for="miles">Mileage</label><input class="input" id="miles" name="miles" inputmode="numeric" placeholder="78,000" required><span class="error">Roughly is fine</span></div>
+            <div class="field"><label for="mot">MOT runs out</label><input class="input" id="mot" name="mot" placeholder="e.g. March 2027, or expired"></div>
+            <fieldset class="field full">
+              <legend>Condition</legend>
+              <div class="radio-cards">
+                <label class="radio-card"><input type="radio" name="cond" value="Drives well, no faults" checked><b>Drives well</b><span>No known faults</span></label>
+                <label class="radio-card"><input type="radio" name="cond" value="Drives, needs some work"><b>Needs some work</b><span>Drives, but has issues</span></label>
+                <label class="radio-card"><input type="radio" name="cond" value="Failed MOT"><b>Failed MOT</b><span>Or MOT has run out</span></label>
+                <label class="radio-card"><input type="radio" name="cond" value="Doesn't run"><b>Doesn't run</b><span>Needs recovery</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="field full">
+              <legend>Service history</legend>
+              <div class="radio-cards">
+                <label class="radio-card"><input type="radio" name="hist" value="Full service history"><b>Full</b><span>Every service recorded</span></label>
+                <label class="radio-card"><input type="radio" name="hist" value="Part service history" checked><b>Part</b><span>Some gaps</span></label>
+                <label class="radio-card"><input type="radio" name="hist" value="No service history"><b>None</b><span>Or not sure</span></label>
+              </div>
+            </fieldset>
+            <div class="field full"><label for="notes">Anything we should know?</label><textarea class="textarea" id="notes" name="notes" placeholder="Warning lights, damage, recent work, how many keys, when you'd like to sell"></textarea><span class="hint">The more honest you are here, the more accurate the offer. Nothing you tell us will lower it as much as finding it on the day would.</span></div>
+            <div class="field full">
+              <label class="upload" for="photos">
+                <b>Add photos</b>
+                <span class="hint">Front, back, both sides, the dashboard with the engine running, and anything damaged. Up to 10.</span>
+                <input type="file" id="photos" name="photos" accept="image/*" multiple>
+                <span class="btn outline sm" aria-hidden="true">Choose photos</span>
+                <div class="thumbs" id="thumbs"></div>
+              </label>
+              <span class="hint" id="photoHint">Photos can't be attached to a WhatsApp link, so we'll ask you to send them in the chat straight after.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="group" id="pxGroup">
+          <h2>Part exchange</h2>
+          <label class="check"><input type="checkbox" id="pxToggle"><span>I want to put this car towards one of yours</span></label>
+          <div class="px-box" id="pxBox" hidden>
+            <div class="field"><label for="pxCar">Which car?</label><select class="select" id="pxCar"><option value="">Choose a car</option></select></div>
+            <p class="small muted">We'll give you two numbers: a price for yours and the amount to pay on top.</p>
+          </div>
+        </div>
+
+        <div class="group">
+          <h2>What you're hoping for</h2>
+          <div class="form">
+            <div class="field"><label for="ask">Price you have in mind</label><input class="input" id="ask" name="ask" inputmode="numeric" placeholder="£ optional"><span class="hint">Leave blank if you'd rather we go first.</span></div>
+          </div>
+        </div>
+
+        <div class="group">
+          <h2>About you</h2>
+          <div class="form">
+            <div class="field"><label for="name">Your name</label><input class="input" id="name" name="name" autocomplete="given-name" placeholder="First name" required><span class="error">Please enter your name</span></div>
+            <div class="field"><label for="postcode">Postcode</label><input class="input" id="postcode" name="postcode" autocomplete="postal-code" placeholder="WA14" required><span class="error">Just the first part is fine</span></div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="msg error" id="formError" hidden>Please check the fields marked above.</div>
+          <div class="btn-row">
+            <button class="btn primary lg" type="submit" id="sendBtn">Get my offer on WhatsApp</button>
+            <a class="btn outline lg" id="emailBtn" href="#">Send by email instead</a>
+          </div>
+          <p class="small muted">We only use your details to make the offer. Nothing is stored on this website.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+<footer id="site-foot"></footer>
+<script src="assets/js/cars.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/sell.js"></script>
+</body>
+</html>

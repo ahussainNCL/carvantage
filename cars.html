@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cars for sale · Carvantage</title>
+<meta name="description" content="Browse our used cars by budget, type, fuel and gearbox. Every car history checked and listed with its faults.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header id="site-head"></header>
+<main class="section tight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="eyebrow">Stock</p><h2 style="font-size:clamp(var(--t5),4vw,var(--t7))">Cars for sale</h2><p>Every car is history checked and listed with its faults. Tap a car for the full story.</p></div>
+    </div>
+    <div class="filterbar" id="filters">
+      <div class="row">
+        <div class="group"><label for="fBudget"><span>Budget</span></label>
+          <select class="select" id="fBudget">
+            <option value="">Any price</option>
+            <option value="2000">Up to £2,000</option>
+            <option value="3000">Up to £3,000</option>
+            <option value="4000">Up to £4,000</option>
+            <option value="5000">Up to £5,000</option>
+          </select>
+        </div>
+        <div class="group" data-filter="body" role="group" aria-label="Type of car"><span>Type</span>
+          <button class="chip" type="button" aria-pressed="true" data-v="">Any</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="Hatchback">Hatchback</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="Estate">Estate</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="SUV">SUV</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="MPV">People carrier</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group" data-filter="fuel" role="group" aria-label="Fuel"><span>Fuel</span>
+          <button class="chip" type="button" aria-pressed="true" data-v="">Any</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="Petrol">Petrol</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="Diesel">Diesel</button>
+        </div>
+        <div class="group" data-filter="gearbox" role="group" aria-label="Gearbox"><span>Gearbox</span>
+          <button class="chip" type="button" aria-pressed="true" data-v="">Any</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="Manual">Manual</button>
+          <button class="chip" type="button" aria-pressed="false" data-v="Automatic">Automatic</button>
+        </div>
+      </div>
+      <div class="meta">
+        <p id="count" aria-live="polite" class="muted"></p>
+        <label class="sort" for="sort">Sort
+          <select class="select" id="sort">
+            <option value="new">Newest listed</option>
+            <option value="price-asc">Price, low to high</option>
+            <option value="price-desc">Price, high to low</option>
+            <option value="miles">Lowest mileage</option>
+            <option value="year">Newest year</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="car-grid" id="grid"></div>
+    <div class="sold-strip" id="soldStrip" hidden>
+      <h3>Recently sold</h3>
+      <p class="muted small" style="margin-bottom:var(--s3)">Gone, but it shows the kind of thing we get in. Message us and we'll tell you when something similar arrives.</p>
+      <div class="row" id="soldRow"></div>
+    </div>
+  </div>
+</main>
+<footer id="site-foot"></footer>
+<script src="assets/js/cars.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/stock.js"></script>
+</body>
+</html>
