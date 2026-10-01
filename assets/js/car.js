@@ -15,7 +15,7 @@
   }
   var photos = c.photos || [];
   var gallery = '<div class="gallery"><div class="main" id="mainShot">' +
-    (photos[0] ? '<img src="' + U.esc(photos[0]) + '" alt="' + U.esc(title) + ', photo 1" width="1600" height="1200" fetchpriority="high">' : placeholder()) +
+    (photos[0] ? '<button type="button" class="zoom" id="zoomBtn" aria-label="Open photos full size"><img src="' + U.esc(photos[0]) + '" alt="' + U.esc(title) + ', photo 1" width="1600" height="1200" fetchpriority="high"></button>' : placeholder()) +
     '<span class="mark">' + ICONS.logo + "</span></div>" +
     (photos.length > 1 ? '<ul class="thumbs">' + photos.map(function (p, i) { return '<li><button type="button" data-i="' + i + '" aria-current="' + (i === 0) + '" aria-label="Photo ' + (i + 1) + ' of ' + photos.length + '"><img src="' + U.esc(p) + '" alt="" width="400" height="300" loading="lazy" decoding="async"></button></li>'; }).join("") + "</ul>" : "") + "</div>";
 
@@ -32,12 +32,19 @@
       '<a class="btn wa" href="' + U.waLink(waText) + '" target="_blank" rel="noopener">' + ICONS.wa + "Ask about this car</a>" +
       '<a class="btn outline" href="sell.html?px=' + U.esc(c.id) + '">Part exchange your car</a>') +
     '<p class="px small muted">Viewings in <span data-cfg="town"></span>, seven days a week. Call or WhatsApp <a data-cfg="phone-link" href="#"></a>.</p>' +
+    (c.status !== "sold" ? '<ul class="trust small">' +
+      '<li><a class="link" href="' + U.waLink("Hi " + S.owner + ", could you send me the history check (HPI) report for the " + title + " " + c.trim + "?") + '" target="_blank" rel="noopener">Ask for the history check report</a></li>' +
+      '<li><a class="link" href="https://www.gov.uk/check-mot-history" target="_blank" rel="noopener">Check its MOT history on GOV.UK</a> <span class="muted">(we\'ll give you the reg)</span></li></ul>' : "") +
     "</aside>";
 
   var facts = [["Mileage", c.miles.toLocaleString("en-GB")], ["Year", c.year], ["Fuel", c.fuel], ["Gearbox", c.gearbox], ["MOT", mot.date, mot.short], ["Owners", c.owners], ["Keys", c.keys], ["Tax", c.tax]];
   var keyfacts = '<dl class="keyfacts">' + facts.map(function (f) { return "<div><dt>" + f[0] + '</dt><dd class="num' + (f[2] ? " short" : "") + '">' + U.esc(f[1]) + "</dd></div>"; }).join("") + "</dl>";
 
-  var notes = c.notes && c.notes.length ? '<ul class="notes">' + c.notes.map(function (n) { return "<li><div>" + U.esc(n.text) + (n.photo ? "<small>Shown in photo " + n.photo + "</small>" : "") + "</div></li>"; }).join("") + "</ul>" : '<p class="muted">Nothing to report on this one. If we find anything before you collect, we\'ll tell you.</p>';
+  // "Shown in photo N" becomes a button when that photo exists, otherwise plain text
+  var notes = c.notes && c.notes.length ? '<ul class="notes">' + c.notes.map(function (n) {
+    var ref = n.photo ? (photos[n.photo - 1] ? '<button type="button" class="note-photo" data-i="' + (n.photo - 1) + '">Shown in photo ' + n.photo + "</button>" : "<small>Shown in photo " + n.photo + "</small>") : "";
+    return "<li><div>" + U.esc(n.text) + ref + "</div></li>";
+  }).join("") + "</ul>" : '<p class="muted">Nothing to report on this one. If we find anything before you collect, we\'ll tell you.</p>';
   var history = c.history && c.history.length ? '<ul class="timeline">' + c.history.map(function (h) { return "<li><time>" + U.monthYear(h.date) + "</time><span>" + U.esc(h.text) + "</span></li>"; }).join("") + "</ul>" : '<p class="muted">Ask us for the full history folder.</p>';
   var features = c.features && c.features.length ? '<ul class="feature-list">' + c.features.map(function (f) { return "<li>" + U.esc(f) + "</li>"; }).join("") + "</ul>" : "";
   var spec = '<dl class="spec-table">' + [["Engine", c.engine], ["Body", c.body + ", " + c.doors + " doors"], ["Colour", c.colour], ["Registration", "Shown at viewing"], ["Previous owners", c.owners], ["Keys", c.keys], ["Road tax", c.tax], ["MOT runs out", mot.date]].map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + U.esc(r[1]) + "</dd></div>"; }).join("") + "</dl>";
@@ -77,14 +84,45 @@
     if (S.draft) el.classList.add("todo");
   });
 
-  // Gallery thumbs
+  // Gallery: thumbs swap the main shot, main shot and note links open the lightbox
+  var current = 0;
+  function showPhoto(i) {
+    current = i;
+    var main = document.getElementById("mainShot").querySelector("img");
+    if (main) { main.src = photos[i]; main.alt = title + ", photo " + (i + 1); }
+    root.querySelectorAll(".thumbs button").forEach(function (x) { x.setAttribute("aria-current", Number(x.getAttribute("data-i")) === i); });
+  }
+  function lightbox(i, opener) {
+    U.openLightbox(photos, i, { alt: title, returnTo: opener, onChange: showPhoto });
+  }
   root.querySelectorAll(".thumbs button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var i = Number(b.getAttribute("data-i"));
-      document.getElementById("mainShot").querySelector("img").src = photos[i];
-      root.querySelectorAll(".thumbs button").forEach(function (x) { x.setAttribute("aria-current", x === b); });
-    });
+    b.addEventListener("click", function () { showPhoto(Number(b.getAttribute("data-i"))); });
   });
+  var zoom = document.getElementById("zoomBtn");
+  if (zoom) zoom.addEventListener("click", function () { lightbox(current, zoom); });
+  root.querySelectorAll(".note-photo").forEach(function (b) {
+    b.addEventListener("click", function () { lightbox(Number(b.getAttribute("data-i")), b); });
+  });
+
+  // Search engines: a description for this car and structured data (Google reads JSON-LD added by scripts)
+  var desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute("content", title + " " + c.trim + ", " + U.gbp(c.price) + ". " + c.miles.toLocaleString("en-GB") + " miles, " + c.fuel.toLowerCase() + ", " + c.gearbox.toLowerCase() + ", " + mot.text + ". " + c.summary);
+  var og = { "og:title": document.title, "og:description": desc ? desc.getAttribute("content") : "", "og:url": (S.url || "") + "/car.html?id=" + c.id };
+  if (photos[0]) og["og:image"] = (S.url || "") + "/" + photos[0];
+  Object.keys(og).forEach(function (k) { var m = document.querySelector('meta[property="' + k + '"]'); if (m) m.setAttribute("content", og[k]); });
+  if (S.url) { var canon = document.createElement("link"); canon.rel = "canonical"; canon.href = og["og:url"]; document.head.appendChild(canon); }
+  var ld = document.createElement("script"); ld.type = "application/ld+json";
+  ld.textContent = JSON.stringify({
+    "@context": "https://schema.org", "@type": "Car",
+    name: title + " " + c.trim, brand: { "@type": "Brand", name: c.make }, model: c.model, vehicleModelDate: String(c.year),
+    bodyType: c.body, fuelType: c.fuel, vehicleTransmission: c.gearbox, color: c.colour, numberOfDoors: c.doors,
+    numberOfPreviousOwners: c.owners, mileageFromOdometer: { "@type": "QuantitativeValue", value: c.miles, unitCode: "SMI" },
+    image: photos.map(function (p) { return (S.url || "") + "/" + p; }), description: c.summary,
+    offers: { "@type": "Offer", price: c.price, priceCurrency: "GBP", itemCondition: "https://schema.org/UsedCondition",
+      availability: c.status === "available" ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+      url: (S.url || "") + "/car.html?id=" + c.id, seller: { "@type": "AutoDealer", name: S.name, telephone: S.phone, address: { "@type": "PostalAddress", addressLocality: S.town, addressCountry: "GB" } } }
+  });
+  document.head.appendChild(ld);
 
   // Viewing sheet
   function openViewing(opener) {
@@ -119,7 +157,9 @@
   });
 
   // Similar cars
-  var similar = U.available().filter(function (x) { return x.id !== c.id && Math.abs(x.price - c.price) <= 1000; }).slice(0, 3);
+  // Same body type first, then nearest in price
+  var similar = U.available().filter(function (x) { return x.id !== c.id && Math.abs(x.price - c.price) <= 1000; })
+    .sort(function (a, b) { return ((b.body === c.body) - (a.body === c.body)) || (Math.abs(a.price - c.price) - Math.abs(b.price - c.price)); }).slice(0, 3);
   if (similar.length) {
     var sec = document.createElement("section"); sec.className = "section on-surface";
     sec.innerHTML = '<div class="wrap"><div class="sec-head"><div><p class="eyebrow">Similar money</p><h2>You might also like</h2></div><a class="link arrow" href="cars.html">All cars</a></div><div class="car-grid">' + similar.map(U.carCard).join("") + "</div></div>";

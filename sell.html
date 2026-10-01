@@ -6,6 +6,14 @@
 <meta name="theme-color" content="#F4F4F2">
 <title>Sell your car · Carvantage</title>
 <meta name="description" content="Get a straight offer for your car, or part exchange it against one of ours.">
+<link rel="canonical" href="https://a.carvantage.uk/sell.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Carvantage">
+<meta property="og:title" content="Sell your car · Carvantage">
+<meta property="og:description" content="Get a straight offer for your car, or part exchange it against one of ours.">
+<meta property="og:url" content="https://a.carvantage.uk/sell.html">
+<meta property="og:image" content="https://a.carvantage.uk/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,12 +51,13 @@
           <div class="form">
             <div class="field full">
               <label for="reg">Registration</label>
-              <div class="plate"><span class="band">UK</span><input id="reg" name="reg" autocomplete="off" placeholder="AB12 CDE" maxlength="8" required aria-describedby="regErr"></div>
+              <div class="plate"><span class="band">UK</span><input id="reg" name="reg" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="AB12 CDE" maxlength="8" required aria-describedby="regErr regHint"></div>
               <span class="error" id="regErr">Please enter the registration</span>
+              <span class="hint" id="regHint" hidden>That doesn't look like a UK registration, but send it anyway if it's right.</span>
             </div>
             <div class="field"><label for="mm">Make and model</label><input class="input" id="mm" name="mm" placeholder="e.g. Ford Fiesta Zetec" required><span class="error">Please tell us the make and model</span></div>
-            <div class="field"><label for="year">Year</label><input class="input" id="year" name="year" inputmode="numeric" placeholder="2014" required><span class="error">Please enter the year</span></div>
-            <div class="field"><label for="miles">Mileage</label><input class="input" id="miles" name="miles" inputmode="numeric" placeholder="78,000" required><span class="error">Roughly is fine</span></div>
+            <div class="field"><label for="year">Year</label><input class="input" id="year" name="year" type="number" inputmode="numeric" min="1980" max="2027" step="1" placeholder="2014" required><span class="error">Please enter a year, e.g. 2014</span></div>
+            <div class="field"><label for="miles">Mileage</label><input class="input" id="miles" name="miles" type="number" inputmode="numeric" min="0" max="500000" step="1" placeholder="78000" required><span class="error">Roughly is fine</span></div>
             <div class="field"><label for="mot">MOT runs out</label><input class="input" id="mot" name="mot" placeholder="e.g. March 2027, or expired"></div>
             <fieldset class="field full">
               <legend>Condition</legend>

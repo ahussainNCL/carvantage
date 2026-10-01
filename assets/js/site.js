@@ -130,6 +130,31 @@
     else if (S.draft) { el.classList.add("todo"); el.title = "Placeholder: set '" + key + "' in assets/js/site.js"; }
   });
 
+  /* ---- Modal plumbing shared by the sheet and the lightbox: Esc closes, Tab stays inside, page doesn't scroll ---- */
+  var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function modal(el, opts) {
+    var prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function close() {
+      el.remove(); document.removeEventListener("keydown", onKey); document.body.style.overflow = prevOverflow;
+      if (opts.onClose) opts.onClose();
+      if (opts.returnTo && opts.returnTo.focus) opts.returnTo.focus();
+    }
+    function onKey(e) {
+      if (e.key === "Escape") { close(); return; }
+      if (opts.onKey && opts.onKey(e) === false) return;
+      if (e.key !== "Tab") return;
+      var items = Array.prototype.filter.call(el.querySelectorAll(FOCUSABLE), function (i) { return i.offsetParent !== null; });
+      if (!items.length) { e.preventDefault(); return; }
+      var first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    document.addEventListener("keydown", onKey);
+    el.addEventListener("click", function (e) { if (e.target === el) close(); });
+    return close;
+  }
+
   /* ---- WhatsApp message sheet ---- */
   U.openSheet = function (opts) {
     var old = document.querySelector(".sheet-dialog"); if (old) old.remove();
@@ -138,13 +163,50 @@
     el.innerHTML = '<div class="box"><div class="hd"><h3 id="sheet-title">' + U.esc(opts.title) + '</h3><button class="close" type="button" aria-label="Close">✕</button></div>' +
       (opts.body || "") + '<p class="small muted">' + (opts.note || "This opens WhatsApp with the message ready to send. You can edit it first.") + "</p></div>";
     document.body.appendChild(el);
-    function close() { el.remove(); document.removeEventListener("keydown", onKey); if (opts.returnTo) opts.returnTo.focus(); }
-    function onKey(e) { if (e.key === "Escape") close(); }
+    var close = modal(el, opts);
     el.querySelector(".close").addEventListener("click", close);
-    el.addEventListener("click", function (e) { if (e.target === el) close(); });
-    document.addEventListener("keydown", onKey);
     if (opts.onReady) opts.onReady(el, close);
     var first = el.querySelector("input, select, textarea, button:not(.close)"); if (first) first.focus();
+    return el;
+  };
+
+  /* ---- Lightbox: full-size photos, arrows / swipe to move, Esc to close ---- */
+  U.openLightbox = function (photos, start, opts) {
+    opts = opts || {};
+    var old = document.querySelector(".lightbox"); if (old) old.remove();
+    var i = Math.max(0, Math.min(start || 0, photos.length - 1)), n = photos.length;
+    var el = document.createElement("div");
+    el.className = "lightbox"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Photos");
+    el.innerHTML = '<div class="lb-top"><span class="lb-count num" aria-live="polite"></span><button class="lb-btn close" type="button" aria-label="Close">✕</button></div>' +
+      '<div class="lb-stage"><img alt="" decoding="async"></div>' +
+      (n > 1 ? '<button class="lb-btn prev" type="button" aria-label="Previous photo">‹</button><button class="lb-btn next" type="button" aria-label="Next photo">›</button>' : "") +
+      (opts.caption ? '<p class="lb-cap">' + U.esc(opts.caption) + "</p>" : "");
+    document.body.appendChild(el);
+    var img = el.querySelector("img"), countEl = el.querySelector(".lb-count");
+    function show(k) {
+      i = (k + n) % n;
+      img.src = photos[i]; img.alt = (opts.alt || "Photo") + " " + (i + 1) + " of " + n;
+      countEl.textContent = (i + 1) + " / " + n;
+      [i + 1, i - 1].forEach(function (j) { if (n > 1) { var pre = new Image(); pre.src = photos[(j + n) % n]; } });
+      if (opts.onChange) opts.onChange(i);
+    }
+    var close = modal(el, {
+      returnTo: opts.returnTo,
+      onKey: function (e) { if (e.key === "ArrowRight") show(i + 1); else if (e.key === "ArrowLeft") show(i - 1); }
+    });
+    el.querySelector(".close").addEventListener("click", close);
+    if (n > 1) {
+      el.querySelector(".prev").addEventListener("click", function () { show(i - 1); });
+      el.querySelector(".next").addEventListener("click", function () { show(i + 1); });
+      var x0 = null;
+      el.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+      el.addEventListener("touchend", function (e) {
+        if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
+        if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1);
+      });
+    }
+    show(i);
+    el.querySelector(".close").focus();
     return el;
   };
 
