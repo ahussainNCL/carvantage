@@ -130,7 +130,7 @@ window.CARS = [
       { text: "Scuffed rear bumper, shown", photo: 7 },
       { text: "Aircon needs a regas, we'll do it before sale", photo: null }
     ],
-    features: ["Fresh MOT on sale", "Panoramic roof", "Bluetooth", "Air con", "Alloy wheels"]
+    features: ["Fresh MOT before sale", "Panoramic roof", "Bluetooth", "Air con", "Alloy wheels"]
   },
   {
     id: "honda-jazz-2011",

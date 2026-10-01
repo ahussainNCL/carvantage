@@ -151,7 +151,7 @@ body.draft .todo { outline: 2px dashed var(--coral); outline-offset: 3px; border
 .car-card .vehicle-placeholder > span { position: absolute; bottom: 12px; font-size: .75rem; color: #53616b; }
 .car-card .shot .placeholder .car-shape { width: 52%; height: auto; opacity: .5; }
 .placeholder svg .hub { fill: var(--brand-card); }
-/* brackets appear on hover and keyboard focus: "look closer" */
+/* brackets appear on hover and keyboard focus: "see details" */
 .car-card .shot::before, .car-card .shot::after { content: ""; position: absolute; width: 24px; height: 24px; border: 2px solid var(--coral); opacity: 0; transition: opacity var(--slow); pointer-events: none; }
 .car-card .shot::before { top: 12px; left: 12px; border-right: 0; border-bottom: 0; }
 .car-card .shot::after { bottom: 12px; right: 12px; border-left: 0; border-top: 0; }
@@ -199,8 +199,9 @@ body.draft .todo { outline: 2px dashed var(--coral); outline-offset: 3px; border
 .promise h3 { font-size: var(--t2); }
 .promise p { color: var(--text-2); font-size: var(--t0); }
 
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s6); counter-reset: step; }
-@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s6); counter-reset: step; }
+@media (max-width: 960px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
 .step { border-top: 1px solid var(--line-strong); padding-top: var(--s4); display: grid; gap: var(--s2); align-content: start; }
 .step::before { counter-increment: step; content: counter(step, decimal-leading-zero); font-family: var(--f-display); font-weight: 800; font-size: var(--t5); letter-spacing: -0.03em; line-height: 1; color: var(--coral); margin-bottom: var(--s2); }
 .step p { color: var(--text-2); }

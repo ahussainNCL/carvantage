@@ -92,7 +92,7 @@
       '<div class="card-heading"><div><p class="card-year num">' + c.year + ' · ' + U.esc(c.body === 'MPV' ? 'People carrier' : c.body) + '</p><h3><a href="car.html?id=' + U.esc(c.id) + '" aria-label="' + U.esc('View ' + U.title(c) + ' ' + c.trim) + '">' + U.esc(c.make + ' ' + c.model) + '</a></h3><p class="trim">' + U.esc(c.trim) + '</p></div><p class="price num">' + U.gbp(c.price) + "</p></div>" +
       '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
       '<div class="tags">' + tags + "</div>" +
-      '<div class="card-footer"><span' + (mot.short ? ' class="short"' : '') + '>' + (mot.expired ? 'Fresh MOT before sale' : 'MOT to ' + U.monthYear(c.mot)) + '</span><span class="card-open" aria-hidden="true">Look closer ' + ARROW + '</span></div>' +
+      '<div class="card-footer"><span' + (mot.short ? ' class="short"' : '') + '>' + (mot.expired ? 'Fresh MOT before sale' : 'MOT to ' + U.monthYear(c.mot)) + '</span><span class="card-open" aria-hidden="true">See details ' + ARROW + '</span></div>' +
       "</div></article>";
   };
 
