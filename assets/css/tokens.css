@@ -24,9 +24,9 @@
   --red-700: #B3261E;
 
   /* ---- Jobs: surfaces and text on the light page ---- */
-  --bg: var(--page-grey);
+  --bg: var(--offwhite);
   --surface: var(--white);
-  --surface-2: var(--offwhite);
+  --surface-2: var(--page-grey);
   --text: var(--ink);
   --text-2: var(--grey-700);
   --text-3: var(--grey-600);
@@ -55,6 +55,7 @@
   /* ---- Type ---- */
   --f-display: "Sora", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Barlow", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --f-label: "Barlow Semi Condensed", "Barlow", "Arial Narrow", Arial, sans-serif;
   --t-1: 0.8125rem;
   --t0: 0.9375rem;
   --t1: 1.0625rem;
@@ -73,7 +74,7 @@
   --s9: 48px; --s10: 64px; --s11: 80px; --s12: 96px;
 
   /* ---- Radius ---- */
-  --r1: 4px; --r2: 6px; --r3: 10px; --r4: 14px; --r5: 20px; --r-pill: 999px;
+  --r1: 3px; --r2: 6px; --r3: 8px; --r4: 12px; --r5: 16px; --r-pill: 999px;
 
   /* ---- Motion ---- */
   --fast: 120ms;

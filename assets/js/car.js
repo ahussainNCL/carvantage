@@ -99,7 +99,7 @@
   var similar = U.available().filter(function (x) { return x.id !== c.id && Math.abs(x.price - c.price) <= 1000; }).slice(0, 3);
   if (similar.length) {
     var sec = document.createElement("section"); sec.className = "section on-surface";
-    sec.innerHTML = '<div class="wrap"><div class="sec-head"><div><p class="eyebrow">Similar money</p><h2>You might also like</h2></div><a class="link" href="cars.html">All cars</a></div><div class="car-grid">' + similar.map(U.carCard).join("") + "</div></div>";
+    sec.innerHTML = '<div class="wrap"><div class="sec-head"><div><p class="eyebrow">Similar money</p><h2>You might also like</h2></div><a class="link arrow" href="cars.html">All cars</a></div><div class="car-grid">' + similar.map(U.carCard).join("") + "</div></div>";
     document.querySelector("main").appendChild(sec);
   }
 })();

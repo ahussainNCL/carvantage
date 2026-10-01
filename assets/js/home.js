@@ -8,6 +8,7 @@
     var max = Number(budget.value) || Infinity, body = bodyInput.value;
     var n = U.available().filter(function (c) { return c.price <= max && (!body || c.body === body); }).length;
     btn.textContent = n === 0 ? "Show all cars" : "Show " + n + (n === 1 ? " car" : " cars");
+    var sc = document.getElementById("stripCount"); if (sc) sc.textContent = U.available().length;
     count.textContent = n === 0 ? "Nothing matches right now, but more arrives every week." : n + " of " + U.available().length + " in stock match.";
   }
   chips.addEventListener("click", function (e) {

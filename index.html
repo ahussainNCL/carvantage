@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
@@ -17,20 +17,19 @@
 <main>
   <section class="hero on-brand">
     <div class="wrap">
-      <div>
+      <div class="frame vf">
         <p class="eyebrow on-brand">Used cars · <span data-cfg="town"></span>, <span data-cfg="area"></span></p>
         <h1 style="margin-top:var(--s4)">Every car shown properly, faults and all. <em>Look closer.</em></h1>
-        <p class="lede" style="margin-top:var(--s5)">Honest used cars from <span class="num">£1,000</span> to <span class="num">£5,000</span>. History checked, MOT date up front, and every scuff photographed before you make the trip.</p>
+        <p class="lede" style="margin-top:var(--s5)">Honest cars from <span class="num">£1,000</span> to <span class="num">£5,000</span>. History checked, MOT date up front, and every scuff photographed before you make the trip.</p>
         <div class="btn-row" style="margin-top:var(--s7)">
           <a class="btn primary lg" href="cars.html">See cars for sale</a>
           <a class="btn outline lg" href="sell.html">Sell us your car</a>
         </div>
-        <div class="facts"><span>History checked</span><span>No admin fees</span><span>Viewings seven days a week</span></div>
       </div>
       <form class="search" id="search" action="cars.html" method="get" aria-labelledby="search-title">
-        <h2 id="search-title" style="font-size:var(--t3)">Find a car</h2>
-        <div class="field">
-          <label for="budget">Your budget</label>
+        <h2 id="search-title">Find a car</h2>
+        <div class="row">
+          <label for="budget">Budget</label>
           <select class="select" id="budget" name="budget">
             <option value="">Any price</option>
             <option value="2000">Up to £2,000</option>
@@ -39,43 +38,36 @@
             <option value="5000">Up to £5,000</option>
           </select>
         </div>
-        <div class="field">
-          <span class="field-label" style="font-size:var(--t0);font-weight:600;color:var(--on-brand-2)">Type of car</span>
-          <div class="chips" id="bodyChips" role="group" aria-label="Type of car">
+        <div class="row">
+          <span class="field-label" id="bodyLabel">Type</span>
+          <div class="chips" id="bodyChips" role="group" aria-labelledby="bodyLabel">
             <button class="chip" type="button" aria-pressed="true" data-v="">Any</button>
-            <button class="chip" type="button" aria-pressed="false" data-v="Hatchback">Small hatch</button>
+            <button class="chip" type="button" aria-pressed="false" data-v="Hatchback">Hatchback</button>
             <button class="chip" type="button" aria-pressed="false" data-v="Estate">Estate</button>
             <button class="chip" type="button" aria-pressed="false" data-v="SUV">SUV</button>
             <button class="chip" type="button" aria-pressed="false" data-v="MPV">People carrier</button>
           </div>
           <input type="hidden" name="body" id="bodyInput" value="">
         </div>
-        <button class="btn primary" type="submit" id="searchBtn">Show cars</button>
-        <p class="count" id="searchCount"></p>
+        <div class="go">
+          <button class="btn primary" type="submit" id="searchBtn">Show cars</button>
+          <p class="count" id="searchCount"></p>
+        </div>
       </form>
     </div>
   </section>
+  <div class="strip" aria-label="At a glance">
+    <div class="wrap"><span><b id="stripCount">7</b>cars in stock</span><span><b>£0</b>admin fees</span><span><b>7</b>days a week viewings</span><span><b>30</b>day right to reject</span></div>
+  </div>
 
   <section class="section on-surface" id="standard">
     <div class="wrap">
       <div class="sec-head"><div><p class="eyebrow">What you get</p><h2>The same standard on every car, whatever it costs</h2></div></div>
       <div class="promises">
-        <div class="promise">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div>
-          <h3>History checked</h3><p>Outstanding finance, write-offs, stolen markers and mileage are checked before a car is listed. Ask and we'll send you the report.</p>
-        </div>
-        <div class="promise">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></div>
-          <h3>Faults in the listing</h3><p>Scuffs, dents and known issues are photographed and written down on every car page, so nothing is a surprise when you turn up.</p>
-        </div>
-        <div class="promise">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
-          <h3>MOT date up front</h3><p>Every listing shows when the MOT runs out. Anything with under six months left gets a fresh one before you collect.</p>
-        </div>
-        <div class="promise">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></div>
-          <h3>The price is the price</h3><p>No admin fees, no prep charges added at the end. Part exchange welcome on anything.</p>
-        </div>
+        <div class="promise"><h3>History checked</h3><p>Outstanding finance, write-offs, stolen markers and mileage are checked before a car is listed. Ask and we'll send you the report.</p></div>
+        <div class="promise"><h3>Faults in the listing</h3><p>Scuffs, dents and known issues are photographed and written down on every car page, so nothing is a surprise when you turn up.</p></div>
+        <div class="promise"><h3>MOT date up front</h3><p>Every listing shows when the MOT runs out. Anything with under six months left gets a fresh one before you collect.</p></div>
+        <div class="promise"><h3>The price is the price</h3><p>No admin fees, no prep charges added at the end. Part exchange welcome on anything.</p></div>
       </div>
       <div class="law">
         <span class="badge">Consumer Rights Act 2015</span>
@@ -88,7 +80,7 @@
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">In stock now</p><h2>Latest cars</h2></div>
-        <a class="link" href="cars.html">See all cars for sale</a>
+        <a class="link arrow" href="cars.html">All cars for sale</a>
       </div>
       <div class="car-grid" id="latestGrid"></div>
     </div>
@@ -137,7 +129,7 @@
     <div class="wrap text">
       <div class="sec-head"><div><p class="eyebrow">Who you're buying from</p><h2>Hello, I'm <span data-cfg="owner"></span></h2></div></div>
       <div class="bio">
-        <div class="photo todo-text">Owner photo<br>goes here</div>
+        <div class="photo vf todo-text">Owner photo<br>goes here</div>
         <div style="display:grid;gap:var(--s4)">
           <blockquote class="todo-text">"I started Carvantage because I was fed up of seeing people drive an hour to look at a car that turned out to be nothing like the advert."</blockquote>
           <p class="todo-text">Short bio goes here: how long you've been doing this, what you did before, why you sell the cars you sell, and where people can find you. Two or three sentences in plain words.</p>

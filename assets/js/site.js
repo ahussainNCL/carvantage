@@ -63,7 +63,7 @@
       '<div class="body">' +
       '<div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + "</p></div>" +
       '<p class="price num">' + U.gbp(c.price) + "</p>" +
-      '<p class="facts num"><span>' + U.miles(c.miles) + "</span><span>" + c.fuel + "</span><span>" + c.gearbox + "</span><span>" + mot.text + "</span></p>" +
+      '<p class="facts num"><span>' + U.miles(c.miles) + "</span><span>" + c.fuel + "</span><span>" + c.gearbox + "</span><span class=\"mot\">" + mot.text + "</span></p>" +
       '<div class="tags">' + tags + "</div>" +
       "</div></article>";
   };
@@ -113,9 +113,9 @@
 
   /* ---- WhatsApp message sheet ---- */
   U.openSheet = function (opts) {
-    var old = document.querySelector(".sheet"); if (old) old.remove();
+    var old = document.querySelector(".sheet-dialog"); if (old) old.remove();
     var el = document.createElement("div");
-    el.className = "sheet"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-labelledby", "sheet-title");
+    el.className = "sheet-dialog"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-labelledby", "sheet-title");
     el.innerHTML = '<div class="box"><div class="hd"><h3 id="sheet-title">' + U.esc(opts.title) + '</h3><button class="close" type="button" aria-label="Close">✕</button></div>' +
       (opts.body || "") + '<p class="small muted">' + (opts.note || "This opens WhatsApp with the message ready to send. You can edit it first.") + "</p></div>";
     document.body.appendChild(el);
