@@ -52,7 +52,7 @@
   var motNote = mot.expired ? "The MOT has run out, so we\'ll put a fresh 12 months on before you collect." : "The MOT has under six months left, so we\'ll put a fresh 12 months on before you collect.";
   var details = '<div class="car-details">' +
     '<div class="car-section" style="border-top:0;padding-top:var(--s6)"><p class="lede">' + U.esc(c.summary) + "</p>" + keyfacts + "</div>" +
-    (c.status !== "sold" ? '<div class="car-section"><div><p class="eyebrow">Look closer</p><h2 style="margin-top:var(--s2)">What\'s wrong with it</h2><p class="sub">Every car this age has something. Here\'s what we found, so there are no surprises when you arrive.</p></div>' + notes + "</div>" +
+    (c.status !== "sold" ? '<div class="car-section"><div><p class="eyebrow">Condition</p><h2 style="margin-top:var(--s2)">What\'s wrong with it</h2><p class="sub">Every used car has something. Here\'s what we found on this one, so nothing is a surprise when you arrive.</p></div>' + notes + "</div>" +
     '<div class="car-section"><h2>Service and MOT history</h2>' + history + (mot.short ? '<div class="msg info">' + motNote + "</div>" : "") + "</div>" +
     (features ? '<div class="car-section"><h2>What it comes with</h2>' + features + "</div>" : "") +
     '<div class="car-section"><h2>Spec</h2>' + spec + "</div>" +
@@ -163,7 +163,7 @@
     .sort(function (a, b) { return ((b.body === c.body) - (a.body === c.body)) || (Math.abs(a.price - c.price) - Math.abs(b.price - c.price)); }).slice(0, 3);
   if (similar.length) {
     var sec = document.createElement("section"); sec.className = "section on-surface";
-    sec.innerHTML = '<div class="wrap"><div class="sec-head"><div><p class="eyebrow">Similar money</p><h2>You might also like</h2></div><a class="link arrow" href="cars.html">All cars</a></div><div class="car-grid">' + similar.map(U.carCard).join("") + "</div></div>";
+    sec.innerHTML = '<div class="wrap"><div class="sec-head"><div><p class="eyebrow">Similar price</p><h2>Other cars to consider</h2></div><a class="link arrow" href="cars.html">All cars</a></div><div class="car-grid">' + similar.map(U.carCard).join("") + "</div></div>";
     document.querySelector("main").appendChild(sec);
   }
 })();
