@@ -1,83 +1,105 @@
-/* Carvantage design tokens.
-   A dark, app-like marketplace: one typeface, a compact type scale, dense spacing,
-   three graphite layers, and coral as the single accent (brand kit v3). */
+/* Carvantage design tokens
+   Two layers: raw colours at the top, then named jobs that the site uses.
+   Change a job, not a raw colour, when a page needs something different.
+   The site is dark throughout: near-black brand bands, a dark graphite page,
+   and slightly lifted graphite cards. Coral is the one accent. */
 
 :root {
   color-scheme: dark;
 
-  /* ---- Raw colours ---- */
-  --black-1: #0E1013;
-  --graphite-0: #15181C;
-  --graphite-1: #1B1E23;
-  --graphite-2: #22262B;
-  --graphite-3: #2A2F35;
-  --graphite-line: #2E3339;
-  --graphite-line-2: #454B52;
-  --coral: #E8452A;
-  --coral-bright: #FF6A4D;
-  --coral-soft: rgba(255, 106, 77, .12);
+  /* ---- Raw colours (from the brand kit, v3, plus a dark scale) ---- */
+  --black-1: #0E1013;      /* deepest: hero, footer, brand bands */
+  --graphite-0: #15181C;   /* page */
+  --graphite-1: #1D2024;   /* cards and surfaces */
+  --graphite: #23262B;     /* logo tile, second surface */
+  --graphite-2: #2B2F34;
+  --graphite-line: #3A3E44;
+  --coral: #E8452A;        /* signal coral: logo corners, brackets, hairline accents */
+  --coral-deep: #C2361E;
+  --coral-bright: #FF6A4D; /* bright coral: buttons, links and highlights, graphite text on top (5.4:1) */
   --offwhite: #F4F4F2;
-  --offwhite-2: #E4E4E1;
+  --offwhite-2: #E6E6E3;   /* hover on off-white buttons */
+  --page-grey: #EFF0F0;
+  --white: #FFFFFF;
+  --grey-100: #E4E6E8;
   --grey-200: #C3C6CB;
-  --grey-300: #B4B8BE;
-  --grey-500: #8A9097;
+  --grey-300: #B9BDC3;
+  --grey-400: #A3A7AD;
+  --grey-500: #8E939A;
+  --grey-600: #4C5157;
+  --ink: #202327;
   --green-400: #5CC489;
   --amber-400: #F0B64A;
   --red-400: #FF7B70;
+  --green-700: #2E7D4F;
+  --amber-700: #8F5A00;
+  --red-700: #B3261E;
 
-  /* ---- Jobs ---- */
+  /* ---- Jobs: surfaces and text on the dark page ---- */
   --bg: var(--graphite-0);
   --surface: var(--graphite-1);
-  --surface-2: var(--graphite-2);
-  --surface-3: var(--graphite-3);
-  --band: #121417;
-  --line: var(--graphite-line);
-  --line-strong: var(--graphite-line-2);
+  --surface-2: var(--graphite);
   --text: var(--offwhite);
   --text-2: var(--grey-300);
   --text-3: var(--grey-500);
+  --line: var(--graphite-line);
+  --line-strong: var(--grey-600);
   --accent: var(--coral-bright);
   --accent-bg: var(--coral-bright);
-  --accent-ink: #1A0B07;
-  --inverse: var(--offwhite);
+  --accent-ink: var(--graphite);
+  --inverse: var(--offwhite);      /* off-white buttons, chips and badges on the dark page */
   --inverse-hover: var(--offwhite-2);
   --on-inverse: var(--black-1);
+
+  /* ---- Jobs: the near-black "brand" bands ---- */
+  --brand: var(--black-1);
+  --brand-card: var(--graphite-1);
+  --brand-line: #22262B;
+  --on-brand: var(--offwhite);
+  --on-brand-2: var(--grey-200);
+  --on-brand-3: var(--grey-400);
+  --brand-accent: var(--coral-bright);
+
+  /* ---- Jobs: states ---- */
   --ok: var(--green-400);
   --warn: var(--amber-400);
-  --error: var(--red-400);
   --sold: var(--grey-500);
+  --error: var(--red-400);
   --focus: var(--coral-bright);
 
-  /* ---- Type: one family, compact scale ---- */
-  --f: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --t-1: 0.75rem;   /* 12 */
-  --t0: 0.8125rem;  /* 13 */
-  --t1: 0.9375rem;  /* 15 body */
-  --t2: 1.0625rem;  /* 17 */
-  --t3: 1.25rem;    /* 20 */
-  --t4: 1.5rem;     /* 24 */
-  --t5: 1.875rem;   /* 30 */
-  --t6: 2.375rem;   /* 38 */
-  --t7: 3rem;       /* 48 */
+  /* ---- Type ---- */
+  --f-display: "Sora", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Barlow", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --f-label: "Barlow Semi Condensed", "Barlow", "Arial Narrow", Arial, sans-serif;
+  --t-1: 0.8125rem;
+  --t0: 0.9375rem;
+  --t1: 1.0625rem;
+  --t2: 1.1875rem;
+  --t3: 1.375rem;
+  --t4: 1.625rem;
+  --t5: 2rem;
+  --t6: 2.5rem;
+  --t7: 3.25rem;
   --lh-tight: 1.15;
-  --lh-body: 1.5;
+  --lh-body: 1.55;
 
   /* ---- Space (4px grid) ---- */
   --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
   --s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px;
-  --s9: 48px; --s10: 64px; --s11: 80px;
+  --s9: 48px; --s10: 64px; --s11: 80px; --s12: 96px;
 
   /* ---- Radius ---- */
-  --r1: 4px; --r2: 8px; --r3: 12px; --r4: 16px; --r-pill: 999px;
+  --r1: 3px; --r2: 6px; --r3: 8px; --r4: 12px; --r5: 16px; --r-pill: 999px;
 
   /* ---- Motion ---- */
   --fast: 120ms;
   --slow: 240ms;
-  --ease: cubic-bezier(.2, .7, .2, 1);
 
-  /* ---- Sizes ---- */
-  --w-page: 1200px;
-  --w-text: 820px;
-  --head-h: 60px;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 12px 32px rgba(0, 0, 0, .35);
+  /* ---- Widths ---- */
+  --w-narrow: 560px;
+  --w-text: 860px;
+  --w-page: 1120px;
+
+  /* ---- Shadow ---- */
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 32px rgba(0, 0, 0, .35);
 }

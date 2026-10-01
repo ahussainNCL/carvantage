@@ -22,17 +22,14 @@
                c.status === "sold" ? '<div class="banner sold"><span class="status-pill sold">Sold</span><p class="small">This one\'s gone. We get similar cars in most weeks.</p></div>' : "";
   var waText = "Hi " + S.owner + ", I'm interested in the " + title + " " + c.trim + " (" + U.gbp(c.price) + ") on your website. Is it still available?";
   var buybox = '<aside class="buybox">' +
-    (banner || '<div><span class="status-pill available">' + statusWord + "</span></div>") +
+    (banner || '<span class="status-pill available">' + statusWord + "</span>") +
+    '<div><h1 style="font-size:var(--t4)">' + U.esc(title) + '</h1><p class="muted">' + U.esc(c.trim) + "</p></div>" +
     '<p class="price num">' + U.gbp(c.price) + "<small>No admin fees. Part exchange welcome.</small></p>" +
-    '<div><h1>' + U.esc(title) + '</h1><p class="trim">' + U.esc(c.trim) + "</p></div>" +
-    '<ul class="specs num"><li>' + c.miles.toLocaleString("en-GB") + " miles</li><li>" + c.fuel + "</li><li>" + c.gearbox + "</li><li>" + c.year + '</li><li class="' + (mot.short ? "short" : "") + '">' + mot.text + "</li></ul>" +
-    '<div class="actions">' +
-    (c.status === "sold" ? '<a class="btn dark lg" href="cars.html">See cars for sale</a>' :
+    (c.status === "sold" ? '<a class="btn dark" href="cars.html">See cars for sale</a>' :
       '<button class="btn primary lg" type="button" id="viewBtn">Arrange a viewing</button>' +
       '<a class="btn wa" href="' + U.waLink(waText) + '" target="_blank" rel="noopener">' + ICONS.wa + "Ask about this car</a>" +
       '<a class="btn outline" href="sell.html?px=' + U.esc(c.id) + '">Part exchange your car</a>') +
-    "</div>" +
-    '<p class="px">Viewings in <span data-cfg="town"></span>, seven days a week. Call or WhatsApp <a data-cfg="phone-link" href="#"></a>.</p>' +
+    '<p class="px small muted">Viewings in <span data-cfg="town"></span>, seven days a week. Call or WhatsApp <a data-cfg="phone-link" href="#"></a>.</p>' +
     "</aside>";
 
   var facts = [["Mileage", c.miles.toLocaleString("en-GB")], ["Year", c.year], ["Fuel", c.fuel], ["Gearbox", c.gearbox], ["MOT", U.monthYear(c.mot), mot.short], ["Owners", c.owners], ["Keys", c.keys], ["Tax", c.tax]];
@@ -43,15 +40,15 @@
   var features = c.features && c.features.length ? '<ul class="feature-list">' + c.features.map(function (f) { return "<li>" + U.esc(f) + "</li>"; }).join("") + "</ul>" : "";
   var spec = '<dl class="spec-table">' + [["Engine", c.engine], ["Body", c.body + ", " + c.doors + " doors"], ["Colour", c.colour], ["Registration", "Shown at viewing"], ["Previous owners", c.owners], ["Keys", c.keys], ["Road tax", c.tax], ["MOT runs out", U.monthYear(c.mot)]].map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + U.esc(r[1]) + "</dd></div>"; }).join("") + "</dl>";
 
-  var details = '<div class="car-details">' +
-    '<div class="car-section"><p class="lede">' + U.esc(c.summary) + "</p>" + keyfacts + "</div>" +
-    (c.status !== "sold" ? '<div class="car-section"><div><p class="eyebrow">Look closer</p><h2>What\'s wrong with it</h2><p class="sub">Every car this age has something. Here\'s what we found, so there are no surprises when you arrive.</p></div>' + notes + "</div>" +
+  var left = '<div>' + gallery +
+    '<div class="car-section" style="border-top:0;padding-top:var(--s6)"><p class="lede">' + U.esc(c.summary) + "</p>" + keyfacts + "</div>" +
+    (c.status !== "sold" ? '<div class="car-section"><div><p class="eyebrow">Look closer</p><h2 style="margin-top:var(--s2)">What\'s wrong with it</h2><p class="sub">Every car this age has something. Here\'s what we found, so there are no surprises when you arrive.</p></div>' + notes + "</div>" +
     '<div class="car-section"><h2>Service and MOT history</h2>' + history + (mot.short ? '<div class="msg info">The MOT has under six months left, so we\'ll put a fresh 12 months on before you collect.</div>' : "") + "</div>" +
     (features ? '<div class="car-section"><h2>What it comes with</h2>' + features + "</div>" : "") +
     '<div class="car-section"><h2>Spec</h2>' + spec + "</div>" +
     '<div class="car-section"><h2>Your rights</h2><p class="sub">You\'re buying from a trader. Under the Consumer Rights Act 2015 the car must be of satisfactory quality for its age and price, as described, and fit for purpose. If a fault was there when you bought it, you can reject the car within 30 days for a full refund.</p></div>' : "") +
     "</div>";
-  root.innerHTML = gallery + buybox + details;
+  root.innerHTML = left + buybox;
 
   // Fill settings inside the freshly rendered HTML
   root.querySelectorAll("[data-cfg]").forEach(function (el) {
@@ -64,8 +61,7 @@
   root.querySelectorAll(".thumbs button").forEach(function (b) {
     b.addEventListener("click", function () {
       var i = Number(b.getAttribute("data-i"));
-      var img = document.getElementById("mainShot").querySelector("img");
-      img.src = photos[i]; img.classList.remove("swap"); void img.offsetWidth; img.classList.add("swap");
+      document.getElementById("mainShot").querySelector("img").src = photos[i];
       root.querySelectorAll(".thumbs button").forEach(function (x) { x.setAttribute("aria-current", x === b); });
     });
   });
