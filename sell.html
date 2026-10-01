@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -15,9 +15,9 @@
 <meta property="og:image" content="https://a.carvantage.uk/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
+<link rel="preload" href="assets/fonts/sora.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
@@ -51,14 +51,14 @@
           <div class="form">
             <div class="field full">
               <label for="reg">Registration</label>
-              <div class="plate"><span class="band">UK</span><input id="reg" name="reg" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="AB12 CDE" maxlength="8" required aria-describedby="regErr regHint"></div>
+              <div class="plate"><span class="band">UK</span><input type="text" id="reg" name="reg" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="AB12 CDE" maxlength="8" required aria-describedby="regErr regHint"></div>
               <span class="error" id="regErr">Please enter the registration</span>
               <span class="hint" id="regHint" hidden>That doesn't look like a UK registration, but send it anyway if it's right.</span>
             </div>
-            <div class="field"><label for="mm">Make and model</label><input class="input" id="mm" name="mm" placeholder="e.g. Ford Fiesta Zetec" required><span class="error">Please tell us the make and model</span></div>
+            <div class="field"><label for="mm">Make and model</label><input type="text" class="input" id="mm" name="mm" placeholder="e.g. Ford Fiesta Zetec" required><span class="error">Please tell us the make and model</span></div>
             <div class="field"><label for="year">Year</label><input class="input" id="year" name="year" type="number" inputmode="numeric" min="1980" max="2027" step="1" placeholder="2014" required><span class="error">Please enter a year, e.g. 2014</span></div>
             <div class="field"><label for="miles">Mileage</label><input class="input" id="miles" name="miles" type="number" inputmode="numeric" min="0" max="500000" step="1" placeholder="78000" required><span class="error">Roughly is fine</span></div>
-            <div class="field"><label for="mot">MOT runs out</label><input class="input" id="mot" name="mot" placeholder="e.g. March 2027, or expired"></div>
+            <div class="field"><label for="mot">MOT runs out</label><input type="text" class="input" id="mot" name="mot" placeholder="e.g. March 2027, or expired"></div>
             <fieldset class="field full">
               <legend>Condition</legend>
               <div class="radio-cards">
@@ -78,13 +78,13 @@
             </fieldset>
             <div class="field full"><label for="notes">Anything we should know?</label><textarea class="textarea" id="notes" name="notes" placeholder="Warning lights, damage, recent work, how many keys, when you'd like to sell"></textarea><span class="hint">The more honest you are here, the more accurate the offer. Nothing you tell us will lower it as much as finding it on the day would.</span></div>
             <div class="field full">
-              <label class="upload" for="photos">
+              <label class="upload">
                 <b>Add photos</b>
                 <span class="hint">Front, back, both sides, the dashboard with the engine running, and anything damaged. Up to 10.</span>
                 <input type="file" id="photos" name="photos" accept="image/*" multiple>
                 <span class="btn outline sm" aria-hidden="true">Choose photos</span>
-                <div class="thumbs" id="thumbs"></div>
               </label>
+              <div class="photo-thumbs" id="thumbs"></div>
               <span class="hint" id="photoHint">Photos can't be attached to a WhatsApp link, so we'll ask you to send them in the chat straight after.</span>
             </div>
           </div>
@@ -102,15 +102,15 @@
         <div class="group">
           <h2>What you're hoping for</h2>
           <div class="form">
-            <div class="field"><label for="ask">Price you have in mind</label><input class="input" id="ask" name="ask" inputmode="numeric" placeholder="£ optional"><span class="hint">Leave blank if you'd rather we go first.</span></div>
+            <div class="field"><label for="ask">Price you have in mind</label><input type="text" class="input" id="ask" name="ask" inputmode="numeric" placeholder="£ optional"><span class="hint">Leave blank if you'd rather we go first.</span></div>
           </div>
         </div>
 
         <div class="group">
           <h2>About you</h2>
           <div class="form">
-            <div class="field"><label for="name">Your name</label><input class="input" id="name" name="name" autocomplete="given-name" placeholder="First name" required><span class="error">Please enter your name</span></div>
-            <div class="field"><label for="postcode">Postcode</label><input class="input" id="postcode" name="postcode" autocomplete="postal-code" placeholder="WA14" required><span class="error">Just the first part is fine</span></div>
+            <div class="field"><label for="name">Your name</label><input type="text" class="input" id="name" name="name" autocomplete="given-name" placeholder="First name" required><span class="error">Please enter your name</span></div>
+            <div class="field"><label for="postcode">Postcode</label><input type="text" class="input" id="postcode" name="postcode" autocomplete="postal-code" placeholder="WA14" required><span class="error">Just the first part is fine</span></div>
           </div>
         </div>
 
