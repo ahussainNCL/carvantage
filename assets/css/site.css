@@ -319,7 +319,18 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 /* ---- Browse page ---- */
 .filterbar { display: grid; gap: var(--s4); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-block: var(--s5); margin-bottom: var(--s7); }
+.filterbar .rows { display: grid; gap: var(--s4); }
 .filterbar .row { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s7); align-items: center; }
+.filters-toggle { display: none; }
+@media (max-width: 760px) {
+  .filters-toggle { display: flex; align-items: center; gap: var(--s2); width: 100%; min-height: 48px; padding: var(--s3) var(--s4); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r2); color: var(--text); font-family: var(--f-label); font-weight: 600; font-size: var(--t0); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+  .filters-toggle .n { color: var(--accent); }
+  .filters-toggle .n:not(:empty)::before { content: "·"; color: var(--text-3); margin-right: var(--s2); }
+  .filters-toggle::after { content: ""; margin-left: auto; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-3px) rotate(45deg); transition: transform var(--fast); }
+  .filters-toggle[aria-expanded="true"]::after { transform: translateY(3px) rotate(-135deg); }
+  .filterbar .rows { display: none; }
+  .filterbar.open .rows { display: grid; }
+}
 .filterbar .group { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
 .filterbar .group > span, .filterbar .group > label > span { font-family: var(--f-label); font-size: var(--t0); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); margin-right: var(--s2); }
 .filterbar .select { min-height: 40px; padding-block: var(--s2); width: auto; background-color: transparent; }
@@ -336,8 +347,12 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .crumbs { display: flex; gap: var(--s2); font-family: var(--f-label); font-size: var(--t0); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); padding-block: var(--s4); flex-wrap: wrap; }
 .crumbs a { color: var(--text-2); text-decoration: none; }
 .crumbs a:hover { text-decoration: underline; }
-.car-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(var(--s6), 4vw, var(--s9)); align-items: start; padding-bottom: var(--s11); }
-@media (max-width: 900px) { .car-layout { grid-template-columns: minmax(0, 1fr); } }
+/* Gallery and details in the left column, buy box sticky on the right; on phones the buy box moves up under the gallery */
+.car-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); grid-template-areas: "gallery buy" "details buy"; column-gap: clamp(var(--s6), 4vw, var(--s9)); row-gap: 0; align-items: start; padding-bottom: var(--s11); }
+.car-layout > .gallery { grid-area: gallery; }
+.car-layout > .buybox { grid-area: buy; }
+.car-layout > .car-details { grid-area: details; }
+@media (max-width: 900px) { .car-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "gallery" "buy" "details"; } .car-layout > .buybox { position: static; margin-top: var(--s5); } }
 .gallery { display: grid; gap: var(--s2); }
 .gallery .main { position: relative; aspect-ratio: 4/3; max-width: 100%; border-radius: var(--r2); background: var(--brand-card); overflow: hidden; color: var(--on-brand-3); display: grid; place-items: center; }
 .gallery .main::before, .gallery .main::after { content: ""; position: absolute; width: 32px; height: 32px; border: 3px solid var(--brand-accent); z-index: 2; pointer-events: none; }

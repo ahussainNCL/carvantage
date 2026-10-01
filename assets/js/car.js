@@ -40,7 +40,7 @@
   var features = c.features && c.features.length ? '<ul class="feature-list">' + c.features.map(function (f) { return "<li>" + U.esc(f) + "</li>"; }).join("") + "</ul>" : "";
   var spec = '<dl class="spec-table">' + [["Engine", c.engine], ["Body", c.body + ", " + c.doors + " doors"], ["Colour", c.colour], ["Registration", "Shown at viewing"], ["Previous owners", c.owners], ["Keys", c.keys], ["Road tax", c.tax], ["MOT runs out", U.monthYear(c.mot)]].map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + U.esc(r[1]) + "</dd></div>"; }).join("") + "</dl>";
 
-  var left = '<div>' + gallery +
+  var details = '<div class="car-details">' +
     '<div class="car-section" style="border-top:0;padding-top:var(--s6)"><p class="lede">' + U.esc(c.summary) + "</p>" + keyfacts + "</div>" +
     (c.status !== "sold" ? '<div class="car-section"><div><p class="eyebrow">Look closer</p><h2 style="margin-top:var(--s2)">What\'s wrong with it</h2><p class="sub">Every car this age has something. Here\'s what we found, so there are no surprises when you arrive.</p></div>' + notes + "</div>" +
     '<div class="car-section"><h2>Service and MOT history</h2>' + history + (mot.short ? '<div class="msg info">The MOT has under six months left, so we\'ll put a fresh 12 months on before you collect.</div>' : "") + "</div>" +
@@ -48,7 +48,7 @@
     '<div class="car-section"><h2>Spec</h2>' + spec + "</div>" +
     '<div class="car-section"><h2>Your rights</h2><p class="sub">You\'re buying from a trader. Under the Consumer Rights Act 2015 the car must be of satisfactory quality for its age and price, as described, and fit for purpose. If a fault was there when you bought it, you can reject the car within 30 days for a full refund.</p></div>' : "") +
     "</div>";
-  root.innerHTML = left + buybox;
+  root.innerHTML = gallery + buybox + details;
 
   // Fill settings inside the freshly rendered HTML
   root.querySelectorAll("[data-cfg]").forEach(function (el) {
