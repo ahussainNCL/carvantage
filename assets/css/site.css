@@ -110,7 +110,8 @@ body.draft .todo { outline: 2px dashed var(--coral); outline-offset: 3px; border
 .section { padding-block: clamp(var(--s9), 7vw, var(--s12)); }
 .section.tight { padding-block: clamp(var(--s7), 5vw, var(--s10)); }
 .section.on-brand { background: var(--brand); color: var(--on-brand); border-block: 1px solid var(--brand-line); }
-.section.on-surface { background: var(--surface); border-block: 1px solid var(--line); }
+.section.on-surface { background: var(--surface-band); border-block: 1px solid var(--line); }
+.on-surface .panel, .on-surface .bio .photo { background: var(--surface-2); }
 .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s7); }
 .sec-head > div { display: grid; gap: var(--s3); }
 .sec-head p { color: var(--text-2); max-width: 36em; }
@@ -293,6 +294,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 @media (max-width: 860px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
 .hero .frame { padding: clamp(var(--s5), 3vw, var(--s7)); margin-inline: calc(-1 * clamp(var(--s5), 3vw, var(--s7))); }
 .hero .frame::before, .hero .frame::after { width: 40px; height: 40px; border-width: 4px; }
+@media (max-width: 480px) { .hero .frame { padding: 0; margin-inline: 0; } .hero .frame::before, .hero .frame::after { display: none; } }
 .hero h1 { color: var(--on-brand); }
 .hero h1 em { font-style: normal; color: var(--brand-accent); }
 .hero .facts { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); margin-top: var(--s7); font-family: var(--f-label); font-weight: 600; font-size: var(--t0); letter-spacing: .08em; text-transform: uppercase; color: var(--on-brand-2); }
@@ -315,6 +317,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 /* Fact strip under the hero */
 .strip { background: var(--surface); border-bottom: 1px solid var(--line); }
 .strip .wrap { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s7); padding-block: var(--s4); font-family: var(--f-label); font-weight: 600; font-size: var(--t0); letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+@media (max-width: 560px) { .strip .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3) var(--s4); } }
 .strip b { color: var(--text); font-family: var(--f-display); font-weight: 700; letter-spacing: -0.01em; text-transform: none; font-size: var(--t2); margin-right: var(--s2); }
 
 /* ---- Browse page ---- */

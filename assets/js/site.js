@@ -59,7 +59,7 @@
     var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
     return '<article class="car-card is-' + c.status + '">' +
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +
-      '<span class="status status-pill ' + c.status + '">' + statusWord + '</span></div>' +
+      (c.status === "available" ? "" : '<span class="status status-pill ' + c.status + '">' + statusWord + '</span>') + '</div>' +
       '<div class="body">' +
       '<div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + "</p></div>" +
       '<p class="price num">' + U.gbp(c.price) + "</p>" +
