@@ -107,6 +107,20 @@
       '<p class="legal">' + S.name + " is a sole trader selling used cars in <span data-cfg=\"town\"></span>. Prices include VAT where applicable. No admin fees. © " + new Date().getFullYear() + "</p></div>";
   }
 
+  /* ---- Icons and budget selects that would otherwise be pasted into each page ---- */
+  document.querySelectorAll("[data-icon]").forEach(function (el) { el.innerHTML = ICONS[el.getAttribute("data-icon")] || ""; });
+  U.budgetSteps = function () {
+    var steps = [], step = 1000, from = Math.ceil((S.minPrice + step) / step) * step;
+    for (var v = from; v <= S.maxPrice; v += step) steps.push(v);
+    return steps;
+  };
+  document.querySelectorAll("select[data-budget]").forEach(function (sel) {
+    var def = sel.getAttribute("data-default") || "";
+    sel.innerHTML = '<option value="">Any price</option>' + U.budgetSteps().map(function (v) {
+      return '<option value="' + v + '"' + (String(v) === def ? " selected" : "") + ">Up to " + U.gbp(v) + "</option>";
+    }).join("");
+  });
+
   /* ---- Fill in settings on the page ---- */
   document.querySelectorAll("[data-cfg]").forEach(function (el) {
     var key = el.getAttribute("data-cfg");

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -15,9 +15,9 @@
 <meta property="og:image" content="https://a.carvantage.uk/assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
+<link rel="preload" href="assets/fonts/sora.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
@@ -37,20 +37,14 @@
           </div>
         </div>
         <div class="hero-media vf" data-photo="heroPhoto" data-alt="One of our cars, photographed close up">
-          <div><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Honest cars · <span data-cfg="town"></span></span></div>
+          <div><span data-icon="car"></span><span>Honest cars · <span data-cfg="town"></span></span></div>
         </div>
       </div>
       <form class="search" id="search" action="cars.html" method="get" aria-labelledby="search-title">
         <h2 id="search-title">Find a car</h2>
         <div class="row">
           <label for="budget">Budget</label>
-          <select class="select" id="budget" name="budget">
-            <option value="">Any price</option>
-            <option value="2000">Up to £2,000</option>
-            <option value="3000" selected>Up to £3,000</option>
-            <option value="4000">Up to £4,000</option>
-            <option value="5000">Up to £5,000</option>
-          </select>
+          <select class="select" id="budget" name="budget" data-budget data-default="3000"></select>
         </div>
         <div class="row">
           <span class="field-label" id="bodyLabel">Type</span>
@@ -70,9 +64,9 @@
       </form>
     </div>
   </section>
-  <div class="strip" aria-label="At a glance">
+  <section class="strip" aria-label="At a glance">
     <div class="wrap"><span><b id="stripCount">7</b>cars in stock</span><span><b>£0</b>admin fees</span><span><b>7</b>days a week viewings</span><span><b>30</b>day right to reject</span></div>
-  </div>
+  </section>
 
   <section class="section" id="latest">
     <div class="wrap">
