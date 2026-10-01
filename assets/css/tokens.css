@@ -65,21 +65,27 @@
   --error: var(--red-700);
   --focus: var(--coral-bright);
 
-  /* ---- Type ---- */
+  /* ---- Type ----
+     Scale at 16px root. Body stays ~17px; display steps are a touch stronger
+     than before, with separate line-heights for tight titles vs body copy. */
   --f-display: "Sora", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Barlow", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --f-label: "Barlow Semi Condensed", "Barlow", "Arial Narrow", Arial, sans-serif;
-  --t-1: 0.8125rem;
-  --t0: 0.9375rem;
-  --t1: 1.0625rem;
-  --t2: 1.1875rem;
-  --t3: 1.375rem;
-  --t4: 1.625rem;
-  --t5: 2rem;
-  --t6: 2.5rem;
-  --t7: 3.25rem;
-  --lh-tight: 1.15;
-  --lh-body: 1.55;
+  --t-1: 0.8125rem;  /* 13px — micro caps / meta */
+  --t0: 0.9375rem;   /* 15px — small UI, card meta */
+  --t1: 1.0625rem;   /* 17px — body */
+  --t2: 1.25rem;     /* 20px — lede / card titles */
+  --t3: 1.5rem;      /* 24px — h3 / prices */
+  --t4: 1.875rem;    /* 30px — section h2 floor */
+  --t5: 2.25rem;     /* 36px — mid display */
+  --t6: 2.75rem;     /* 44px — page h1 floor */
+  --t7: 3.5rem;      /* 56px — display reference */
+  --lh-tight: 1.18;
+  --lh-snug: 1.35;
+  --lh-body: 1.6;
+  --track-display: -0.03em;
+  --track-tight: -0.02em;
+  --track-label: 0.1em;
 
   /* ---- Space (4px grid) ---- */
   --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
