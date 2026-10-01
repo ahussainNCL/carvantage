@@ -55,6 +55,9 @@
     photoUrl: function (c, i) { return c.photos && c.photos[i] ? c.photos[i] : null; }
   };
 
+  /* Temporary non-photo panel when a car has no real photos yet.
+     Honest "photos coming soon" copy; silhouette varies by body type.
+     No stock photos, Unsplash, or AI car images. */
   U.carPlaceholder = function (c) {
     var roofs = {
       Hatchback: 'M94 139 146 89Q154 81 171 81h113q18 0 32 13l52 47',
@@ -62,16 +65,31 @@
       SUV: 'M87 139 109 77Q113 69 131 69h176q19 0 30 17l40 56',
       MPV: 'M89 139 117 77Q123 69 141 69h157q20 0 32 16l46 57'
     };
-    return '<div class="placeholder vehicle-placeholder"><svg viewBox="0 0 480 250" fill="none" aria-hidden="true">' +
-      '<path d="M27 204h426M240 32v187" stroke="currentColor" stroke-opacity=".09"/>' +
-      '<ellipse cx="240" cy="202" rx="180" ry="8" fill="currentColor" opacity=".06"/>' +
-      '<path d="M58 183v-27q0-12 17-15l24-5h270l34 10q15 4 17 16l3 20-17 10H72z" fill="currentColor" fill-opacity=".06" stroke="currentColor" stroke-width="2.5"/>' +
-      '<path d="' + (roofs[c.body] || roofs.Hatchback) + '" stroke="currentColor" stroke-width="2.5"/>' +
+    var body = c.body || 'Hatchback';
+    var bodyLabel = body === 'MPV' ? 'People carrier' : body;
+    var identity = [c.year, c.make, c.model].filter(Boolean).join(' ');
+    var metaBits = [];
+    if (c.price != null) metaBits.push(U.gbp(c.price));
+    if (bodyLabel) metaBits.push(bodyLabel);
+    return '<div class="placeholder vehicle-placeholder" data-body="' + U.esc(body) + '">' +
+      '<div class="placeholder-art" aria-hidden="true">' +
+      '<svg viewBox="0 0 480 250" fill="none">' +
+      '<rect width="480" height="250" fill="currentColor" fill-opacity=".03"/>' +
+      '<path d="M0 62h480M0 188h480M96 0v250M384 0v250" stroke="currentColor" stroke-opacity=".05"/>' +
+      '<ellipse cx="240" cy="202" rx="180" ry="8" fill="currentColor" opacity=".07"/>' +
+      '<path d="M58 183v-27q0-12 17-15l24-5h270l34 10q15 4 17 16l3 20-17 10H72z" fill="currentColor" fill-opacity=".07" stroke="currentColor" stroke-width="2.5"/>' +
+      '<path d="' + (roofs[body] || roofs.Hatchback) + '" stroke="currentColor" stroke-width="2.5"/>' +
       '<path d="M238 87v50m60-44 33 43m-221 14h275m-147 0v35m-121 0h225" stroke="currentColor" stroke-opacity=".5" stroke-width="2"/>' +
       '<path d="M216 155h12m100 0h12m-270 0h12m315 5h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
       '<g fill="var(--placeholder-bg)" stroke="currentColor" stroke-width="3"><circle cx="120" cy="186" r="25"/><circle cx="359" cy="186" r="25"/></g>' +
       '<g stroke="currentColor" stroke-opacity=".45" stroke-width="2"><circle cx="120" cy="186" r="13"/><circle cx="359" cy="186" r="13"/></g>' +
-      '<path d="M32 47v-12h12m392 172h12v-12" stroke="#c2361e" stroke-width="2"/></svg><span>Photos coming soon</span></div>';
+      '<path d="M28 44v-14h14m410 176h14v-14" stroke="var(--coral-deep)" stroke-width="2.5"/>' +
+      '</svg></div>' +
+      '<div class="placeholder-copy">' +
+      (identity ? '<p class="placeholder-title">' + U.esc(identity) + '</p>' : '') +
+      (metaBits.length ? '<p class="placeholder-meta">' + U.esc(metaBits.join(' · ')) + '</p>' : '') +
+      '<p class="placeholder-soon">Photos coming soon</p>' +
+      '</div></div>';
   };
 
   /* Car card used on the homepage and browse page */
