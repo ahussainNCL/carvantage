@@ -11,7 +11,7 @@
   document.getElementById("crumb").textContent = title;
 
   function placeholder() {
-    return '<div class="placeholder"><svg viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle cx="46" cy="64" r="16" fill="#2B2F34" stroke="currentColor" stroke-width="6"/><circle cx="158" cy="64" r="16" fill="#2B2F34" stroke="currentColor" stroke-width="6"/></svg><b>Photos coming soon</b><span class="small">Message us and we\'ll send a walkaround video today.</span></div>';
+    return '<div class="placeholder"><svg viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><b>Photos coming soon</b><span class="small">Message us and we\'ll send a walkaround video today.</span></div>';
   }
   var photos = c.photos || [];
   var gallery = '<div class="gallery"><div class="main" id="mainShot">' + (photos[0] ? '<img src="' + U.esc(photos[0]) + '" alt="' + U.esc(title) + ', photo 1">' : placeholder()) + '<span class="mark">' + ICONS.logo + "</span></div>" +
