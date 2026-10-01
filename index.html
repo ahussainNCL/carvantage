@@ -9,71 +9,61 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <header id="site-head"></header>
 <main>
-  <section class="hero on-brand">
+  <section class="hero">
     <div class="wrap">
-      <div class="frame vf">
-        <p class="eyebrow on-brand">Used cars · <span data-cfg="town"></span>, <span data-cfg="area"></span></p>
-        <h1 style="margin-top:var(--s4)">Every car shown properly, faults and all. <em>Look closer.</em></h1>
-        <p class="lede" style="margin-top:var(--s5)">Honest cars from <span class="num">£1,000</span> to <span class="num">£5,000</span>. History checked, MOT date up front, and every scuff photographed before you make the trip.</p>
-        <div class="btn-row" style="margin-top:var(--s7)">
-          <a class="btn primary lg" href="cars.html">See cars for sale</a>
-          <a class="btn outline lg" href="sell.html">Sell us your car</a>
-        </div>
+      <div class="hero-text">
+        <div class="row"><p class="eyebrow">Used cars · <span data-cfg="town"></span>, <span data-cfg="area"></span></p><span class="count-pill" id="stockCount"></span></div>
+        <h1>Honest used cars from £1,000 to £5,000. <em>Look closer.</em></h1>
+        <p class="lede">History checked, faults listed, MOT date up front. Every scuff photographed before you make the trip.</p>
       </div>
-      <form class="search" id="search" action="cars.html" method="get" aria-labelledby="search-title">
-        <h2 id="search-title">Find a car</h2>
-        <div class="row">
-          <label for="budget">Budget</label>
+      <form class="search-bar" id="search" action="cars.html" method="get" aria-label="Find a car">
+        <label>Budget
           <select class="select" id="budget" name="budget">
             <option value="">Any price</option>
             <option value="2000">Up to £2,000</option>
-            <option value="3000" selected>Up to £3,000</option>
+            <option value="3000">Up to £3,000</option>
             <option value="4000">Up to £4,000</option>
             <option value="5000">Up to £5,000</option>
           </select>
-        </div>
-        <div class="row">
-          <span class="field-label" id="bodyLabel">Type</span>
-          <div class="chips" id="bodyChips" role="group" aria-labelledby="bodyLabel">
-            <button class="chip" type="button" aria-pressed="true" data-v="">Any</button>
-            <button class="chip" type="button" aria-pressed="false" data-v="Hatchback">Hatchback</button>
-            <button class="chip" type="button" aria-pressed="false" data-v="Estate">Estate</button>
-            <button class="chip" type="button" aria-pressed="false" data-v="SUV">SUV</button>
-            <button class="chip" type="button" aria-pressed="false" data-v="MPV">People carrier</button>
-          </div>
-          <input type="hidden" name="body" id="bodyInput" value="">
-        </div>
-        <div class="go">
-          <button class="btn primary" type="submit" id="searchBtn">Show cars</button>
-          <p class="count" id="searchCount"></p>
-        </div>
+        </label>
+        <label>Type
+          <select class="select" id="body" name="body">
+            <option value="">Any type</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Estate">Estate</option>
+            <option value="SUV">SUV</option>
+            <option value="MPV">People carrier</option>
+          </select>
+        </label>
+        <label>Fuel
+          <select class="select" id="fuel" name="fuel">
+            <option value="">Any fuel</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+          </select>
+        </label>
+        <label>Gearbox
+          <select class="select" id="gearbox" name="gearbox">
+            <option value="">Any gearbox</option>
+            <option value="Manual">Manual</option>
+            <option value="Automatic">Automatic</option>
+          </select>
+        </label>
+        <button class="btn primary" type="submit" id="searchBtn">Search</button>
       </form>
-    </div>
-  </section>
-  <div class="strip" aria-label="At a glance">
-    <div class="wrap"><span><b id="stripCount">7</b>cars in stock</span><span><b>£0</b>admin fees</span><span><b>7</b>days a week viewings</span><span><b>30</b>day right to reject</span></div>
-  </div>
-
-  <section class="section on-surface" id="standard">
-    <div class="wrap">
-      <div class="sec-head"><div><p class="eyebrow">What you get</p><h2>The same standard on every car, whatever it costs</h2></div></div>
-      <div class="promises">
-        <div class="promise"><h3>History checked</h3><p>Outstanding finance, write-offs, stolen markers and mileage are checked before a car is listed. Ask and we'll send you the report.</p></div>
-        <div class="promise"><h3>Faults in the listing</h3><p>Scuffs, dents and known issues are photographed and written down on every car page, so nothing is a surprise when you turn up.</p></div>
-        <div class="promise"><h3>MOT date up front</h3><p>Every listing shows when the MOT runs out. Anything with under six months left gets a fresh one before you collect.</p></div>
-        <div class="promise"><h3>The price is the price</h3><p>No admin fees, no prep charges added at the end. Part exchange welcome on anything.</p></div>
-      </div>
-      <div class="law">
-        <span class="badge">Consumer Rights Act 2015</span>
-        <p>You're buying from a trader, so the law is on your side. The car must be of <b>satisfactory quality</b> for its age, mileage and price, <b>as described</b>, and <b>fit for purpose</b>. If a fault was there when you bought it, you can reject the car for a full refund within <b>30 days</b>.</p>
-      </div>
+      <ul class="trust">
+        <li><span><b>History checked</b> on every car</span></li>
+        <li><span><b>Faults listed</b> in every advert</span></li>
+        <li><span><b>MOT date</b> shown up front</span></li>
+        <li><span><b>£0 admin fees</b>, part exchange welcome</span></li>
+      </ul>
     </div>
   </section>
 
@@ -87,7 +77,23 @@
     </div>
   </section>
 
-  <section class="section on-brand" id="how">
+  <section class="section band" id="standard">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">What you get</p><h2>The same standard on every car, whatever it costs</h2></div></div>
+      <div class="tiles">
+        <div class="tile"><span class="ic"></span><h3>History checked</h3><p>Outstanding finance, write-offs, stolen markers and mileage are checked before a car is listed. Ask and we'll send you the report.</p></div>
+        <div class="tile"><span class="ic"></span><h3>Faults in the listing</h3><p>Scuffs, dents and known issues are photographed and written down on every car page, so nothing is a surprise when you turn up.</p></div>
+        <div class="tile"><span class="ic"></span><h3>MOT date up front</h3><p>Every listing shows when the MOT runs out. Anything with under six months left gets a fresh one before you collect.</p></div>
+        <div class="tile"><span class="ic"></span><h3>The price is the price</h3><p>No admin fees, no prep charges added at the end. Part exchange welcome on anything.</p></div>
+      </div>
+      <div class="law">
+        <span class="badge">Consumer Rights Act 2015</span>
+        <p>You're buying from a trader, so the law is on your side. The car must be of <b>satisfactory quality</b> for its age, mileage and price, <b>as described</b>, and <b>fit for purpose</b>. If a fault was there when you bought it, you can reject the car for a full refund within <b>30 days</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
     <div class="wrap">
       <div class="sec-head"><div><p class="eyebrow">How it works</p><h2>Buying a car from us</h2></div></div>
       <div class="steps">
@@ -98,23 +104,23 @@
     </div>
   </section>
 
-  <section class="section" id="sell">
+  <section class="section band" id="sell">
     <div class="wrap">
       <div class="sec-head"><div><p class="eyebrow">We buy cars</p><h2>Selling, or swapping?</h2></div></div>
       <div class="two">
         <div class="panel">
           <h3>Sell us your car</h3>
-          <p class="muted">Any make, any condition, up to around <span class="num">£5,000</span>. Send the details and photos and you'll have a straight offer, usually the same day.</p>
+          <p class="muted small">Any make, any condition, up to around <span class="num">£5,000</span>. Send the details and photos and you'll have a straight offer, usually the same day.</p>
           <ul class="ticks">
             <li>Offer by WhatsApp, no obligation</li>
             <li>Paid by bank transfer before the keys change hands</li>
             <li>We sort the V5C with you on the day</li>
           </ul>
-          <div><a class="btn dark" href="sell.html">Get an offer</a></div>
+          <div><a class="btn primary" href="sell.html">Get an offer</a></div>
         </div>
         <div class="panel">
           <h3>Part exchange</h3>
-          <p class="muted">Seen a car you like? Put your current one towards it. Tell us about yours and we'll give you a price to take off the car you're buying.</p>
+          <p class="muted small">Seen a car you like? Put your current one towards it. Tell us about yours and we'll give you a price to take off the car you're buying.</p>
           <ul class="ticks">
             <li>Works on any car we have in stock</li>
             <li>Same honest valuation as buying outright</li>
@@ -126,25 +132,25 @@
     </div>
   </section>
 
-  <section class="section on-surface" id="about">
+  <section class="section" id="about">
     <div class="wrap text">
       <div class="sec-head"><div><p class="eyebrow">Who you're buying from</p><h2>Hello, I'm <span data-cfg="owner"></span></h2></div></div>
       <div class="bio">
         <div class="photo vf todo-text">Owner photo<br>goes here</div>
-        <div style="display:grid;gap:var(--s4)">
+        <div style="display:grid;gap:var(--s3)">
           <blockquote class="todo-text">"I started Carvantage because I was fed up of seeing people drive an hour to look at a car that turned out to be nothing like the advert."</blockquote>
           <p class="todo-text">Short bio goes here: how long you've been doing this, what you did before, why you sell the cars you sell, and where people can find you. Two or three sentences in plain words.</p>
           <p>Every car is bought, checked and listed by me. If you message, you're talking to me.</p>
         </div>
       </div>
-      <div id="reviews" hidden style="margin-top:var(--s9)">
+      <div id="reviews" hidden style="margin-top:var(--s7)">
         <div class="sec-head"><div><p class="eyebrow">Reviews</p><h2>What buyers say</h2></div></div>
         <div class="two review-list"></div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="contact">
+  <section class="section band" id="contact">
     <div class="wrap">
       <div class="sec-head"><div><p class="eyebrow">Viewings and contact</p><h2>Come and look closer</h2></div></div>
       <div class="contact-grid">
