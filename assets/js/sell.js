@@ -55,13 +55,10 @@
   }
   form.addEventListener("submit", function (e) {
     e.preventDefault(); if (!validate()) return;
-    var btn = document.getElementById("sendBtn"); btn.classList.add("loading");
-    window.open(U.waLink(message()), "_blank", "noopener");
-    setTimeout(function () {
-      btn.classList.remove("loading");
-      err.className = "msg success"; err.hidden = false;
-      err.textContent = "WhatsApp should have opened with your details. If it didn't, tap the button again or use email.";
-    }, 600);
+    var link = U.waLink(message());
+    err.className = "msg success"; err.hidden = false;
+    err.innerHTML = '<div style="display:grid;gap:var(--s3)"><span>Your details are ready. Tap to open WhatsApp and send them.</span><a class="btn wa" href="' + link + '" target="_blank" rel="noopener">' + ICONS.wa + "Open WhatsApp</a></div>";
+    err.querySelector("a").focus();
   });
   document.getElementById("emailBtn").addEventListener("click", function (e) {
     e.preventDefault(); if (!validate()) return;
