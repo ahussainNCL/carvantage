@@ -18,9 +18,14 @@
 <main class="section tight">
   <div class="wrap">
     <div class="sec-head">
-      <div><p class="eyebrow">Stock</p><h2 style="font-size:clamp(var(--t5),4vw,var(--t7))">Cars for sale</h2><p>Every car is history checked and listed with its faults. Tap a car for the full story.</p></div>
+      <div><p class="eyebrow">Find your next car</p><h1>Cars for sale</h1><p>History checked. Faults explained. A proper look at every car.</p></div>
+      <a class="link arrow" href="sell.html?px=1">Have a car to part exchange?</a>
     </div>
     <div class="filterbar" id="filters">
+      <div class="stock-search"><label class="sr-only" for="fSearch">Search by make, model or trim</label><input class="input" type="search" id="fSearch" placeholder="Search by make, model or trim…" autocomplete="off" maxlength="100"><button class="clear-filters" id="resetFilters" type="button" hidden>Clear filters</button></div>
+      <details class="filter-disclosure" id="filterDisclosure" open>
+      <summary>Refine your search <span aria-hidden="true">+</span></summary>
+      <div class="filter-fields">
       <div class="row">
         <div class="group"><label for="fBudget"><span>Budget</span></label>
           <select class="select" id="fBudget">
@@ -51,6 +56,9 @@
           <button class="chip" type="button" aria-pressed="false" data-v="Automatic">Automatic</button>
         </div>
       </div>
+      </div>
+      </details>
+      <div class="active-filters" id="activeFilters" role="group" aria-label="Selected filters" hidden></div>
       <div class="meta">
         <p id="count" aria-live="polite" class="muted"></p>
         <label class="sort" for="sort">Sort
@@ -64,6 +72,7 @@
         </label>
       </div>
     </div>
+    <h2 class="sr-only">Our current stock</h2>
     <div class="car-grid" id="grid"></div>
     <div class="sold-strip" id="soldStrip" hidden>
       <h3>Recently sold</h3>

@@ -4,23 +4,35 @@
   var pxToggle = document.getElementById("pxToggle"), pxBox = document.getElementById("pxBox"), pxCar = document.getElementById("pxCar");
 
   // Stock list for part exchange
-  pxCar.innerHTML += U.available().sort(function (a, b) { return a.price - b.price; }).map(function (c) { return '<option value="' + U.esc(c.id) + '">' + U.esc(U.title(c) + " " + c.trim) + " · " + U.gbp(c.price) + "</option>"; }).join("");
+  pxCar.innerHTML += U.available().filter(function (c) { return c.status === 'available'; }).sort(function (a, b) { return a.price - b.price; }).map(function (c) { return '<option value="' + U.esc(c.id) + '">' + U.esc(U.title(c) + " " + c.trim) + " · " + U.gbp(c.price) + "</option>"; }).join("");
   var px = U.param("px");
+  var pxCandidate = U.byId(px), selectedCar = pxCandidate && pxCandidate.status === 'available' ? pxCandidate : null;
   if (px) {
     pxToggle.checked = true; pxBox.hidden = false;
-    if (U.byId(px)) pxCar.value = px;
+    if (selectedCar) pxCar.value = px;
     document.getElementById("sellTitle").textContent = "Part exchange your car";
-    document.getElementById("sellLede").innerHTML = "Tell us about your car and we'll give you a price for it and the amount to pay on top for " + (U.byId(px) ? "the <b>" + U.esc(U.title(U.byId(px))) + "</b>" : "the car you've chosen") + ". It opens WhatsApp with everything ready to send.";
+    document.getElementById("sellLede").innerHTML = "Tell us about your car and we'll give you a price for it and the amount to pay on top for " + (selectedCar ? "the <b>" + U.esc(U.title(selectedCar)) + "</b>" : "one of our available cars") + ". It opens WhatsApp with everything ready to send.";
   }
   pxToggle.addEventListener("change", function () { pxBox.hidden = !pxToggle.checked; });
 
   // Photo previews
+  var photoUrls = [], photoCount = 0;
   document.getElementById("photos").addEventListener("change", function (e) {
+    photoUrls.forEach(function (url) { URL.revokeObjectURL(url); }); photoUrls = [];
     var thumbs = document.getElementById("thumbs"); thumbs.innerHTML = "";
-    Array.prototype.slice.call(e.target.files, 0, 10).forEach(function (f) {
-      var img = document.createElement("img"); img.alt = ""; img.src = URL.createObjectURL(f); thumbs.appendChild(img);
+    var files = Array.from(e.target.files).filter(function (f) { return f.type.startsWith('image/'); }).slice(0, 10);
+    photoCount = files.length;
+    files.forEach(function (f, i) {
+      var img = document.createElement("img"); img.alt = "Selected photo " + (i + 1); img.src = URL.createObjectURL(f); photoUrls.push(img.src); thumbs.appendChild(img);
     });
+    document.getElementById("photoHint").textContent = (e.target.files.length > 10 ? 'Showing the first 10 photos. ' : '') + "Photos aren't attached automatically. Send them in the WhatsApp chat after your message.";
   });
+
+  function resetPreparedMessage() {
+    if (err.classList.contains('success')) { err.hidden = true; err.className = 'msg error'; err.textContent = 'Please check the fields marked above.'; }
+  }
+  form.addEventListener('input', resetPreparedMessage);
+  form.addEventListener('change', resetPreparedMessage);
 
   // Registration formatting
   var reg = document.getElementById("reg");
@@ -31,12 +43,31 @@
   });
 
   function val(id) { return (document.getElementById(id).value || "").trim(); }
+  function validField(input) {
+    var value = input.value.trim();
+    if (!value) return false;
+    if (input.id === 'year') return /^\d{4}$/.test(value) && Number(value) >= 1900 && Number(value) <= new Date().getFullYear() + 1;
+    if (input.id === 'miles') return /^\d[\d,\s]*$/.test(value) && Number(value.replace(/[,\s]/g, '')) >= 0;
+    if (input.id === 'reg') return /^[A-Z0-9 ]{2,8}$/i.test(value);
+    return true;
+  }
+  form.querySelectorAll('[required]').forEach(function (input) {
+    var error = input.closest('.field').querySelector('.error');
+    if (error) { error.id = input.id + 'Err'; input.setAttribute('aria-describedby', error.id); }
+    if (input.id === 'year') error.textContent = 'Enter a four-digit year, e.g. 2014';
+    if (input.id === 'miles') error.textContent = 'Enter the mileage as a number, e.g. 78,000';
+    input.addEventListener('input', function () {
+      if (input.getAttribute('aria-invalid') === 'true' && validField(input)) { input.closest('.field').classList.remove('invalid'); input.removeAttribute('aria-invalid'); }
+    });
+  });
   function validate() {
     var ok = true;
     form.querySelectorAll("[required]").forEach(function (i) {
-      var field = i.closest(".field"), bad = !i.value.trim();
+      var field = i.closest(".field"), bad = !validField(i);
       field.classList.toggle("invalid", bad); if (bad) ok = false;
+      i.setAttribute('aria-invalid', String(bad));
     });
+    err.className = 'msg error'; err.textContent = 'Please check the fields marked above.';
     err.hidden = ok;
     if (!ok) form.querySelector(".invalid input, .invalid select").focus();
     return ok;
@@ -44,7 +75,7 @@
   function message() {
     var cond = form.querySelector("[name=cond]:checked").value, hist = form.querySelector("[name=hist]:checked").value;
     var pxLine = pxToggle.checked ? "\nPart exchange against: " + (pxCar.value ? U.title(U.byId(pxCar.value)) + " " + U.byId(pxCar.value).trim + " (" + U.gbp(U.byId(pxCar.value).price) + ")" : "one of your cars, not decided yet") : "";
-    var photos = document.getElementById("photos").files.length;
+    var photos = photoCount;
     return "Hi " + S.owner + ", it's " + val("name") + ". I'd like an offer on my car.\n\n" +
       "Reg: " + val("reg") + "\nCar: " + val("mm") + ", " + val("year") + "\nMileage: " + val("miles") + "\nMOT: " + (val("mot") || "not sure") +
       "\nCondition: " + cond + "\nService history: " + hist +

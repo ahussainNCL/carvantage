@@ -23,13 +23,13 @@
   --grey-200: #C3C6CB;
   --grey-300: #B9BDC3;
   --grey-400: #A3A7AD;
-  --grey-500: #8E939A;
+  --grey-500: #5E666E;
   --grey-600: #4C5157;
   --ink: #202327;
   --green-400: #5CC489;
   --amber-400: #F0B64A;
   --red-400: #FF7B70;
-  --green-700: #2E7D4F;
+  --green-700: #236440;
   --amber-700: #8F5A00;
   --red-700: #B3261E;
 
@@ -44,7 +44,7 @@
   --line-strong: var(--grey-200);
   --accent: var(--coral-deep);
   --accent-bg: var(--coral-bright);
-  --accent-ink: var(--white);
+  --accent-ink: var(--black-1);
   --inverse: var(--ink);
   --inverse-hover: var(--black-1);
   --on-inverse: var(--offwhite);
@@ -96,7 +96,7 @@
   /* ---- Widths ---- */
   --w-narrow: 560px;
   --w-text: 860px;
-  --w-page: 1120px;
+  --w-page: 1248px;
 
   /* ---- Shadow ---- */
   --shadow: 0 2px 5px rgba(14, 16, 19, .06), 0 18px 42px rgba(14, 16, 19, .10);
