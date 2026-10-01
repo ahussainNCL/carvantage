@@ -21,6 +21,8 @@
       <div><p class="eyebrow">Stock</p><h2 style="font-size:clamp(var(--t5),4vw,var(--t7))">Cars for sale</h2><p>Every car is history checked and listed with its faults. Tap a car for the full story.</p></div>
     </div>
     <div class="filterbar" id="filters">
+      <button class="filter-toggle" type="button" id="filterToggle" aria-expanded="false" aria-controls="filterRows">Filters<span class="n"></span></button>
+      <div class="filter-rows" id="filterRows">
       <div class="row">
         <div class="group"><label for="fBudget"><span>Budget</span></label>
           <select class="select" id="fBudget">
@@ -50,6 +52,7 @@
           <button class="chip" type="button" aria-pressed="false" data-v="Manual">Manual</button>
           <button class="chip" type="button" aria-pressed="false" data-v="Automatic">Automatic</button>
         </div>
+      </div>
       </div>
       <div class="meta">
         <p id="count" aria-live="polite" class="muted"></p>

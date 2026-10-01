@@ -5,12 +5,12 @@
 
   // Stock list for part exchange
   pxCar.innerHTML += U.available().sort(function (a, b) { return a.price - b.price; }).map(function (c) { return '<option value="' + U.esc(c.id) + '">' + U.esc(U.title(c) + " " + c.trim) + " · " + U.gbp(c.price) + "</option>"; }).join("");
-  var px = U.param("px");
-  if (px) {
+  var px = U.param("px"), pxCarObj = px ? U.byId(px) : null;
+  if (px !== null) {
     pxToggle.checked = true; pxBox.hidden = false;
-    if (U.byId(px)) pxCar.value = px;
+    if (pxCarObj) pxCar.value = px;
     document.getElementById("sellTitle").textContent = "Part exchange your car";
-    document.getElementById("sellLede").innerHTML = "Tell us about your car and we'll give you a price for it and the amount to pay on top for " + (U.byId(px) ? "the <b>" + U.esc(U.title(U.byId(px))) + "</b>" : "the car you've chosen") + ". It opens WhatsApp with everything ready to send.";
+    document.getElementById("sellLede").innerHTML = "Tell us about your car and we'll give you a price for it and the amount to pay on top for " + (pxCarObj ? "the <b>" + U.esc(U.title(pxCarObj)) + "</b>" : "whichever of our cars you pick") + ". It opens WhatsApp with everything ready to send.";
   }
   pxToggle.addEventListener("change", function () { pxBox.hidden = !pxToggle.checked; });
 

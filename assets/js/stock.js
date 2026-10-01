@@ -3,7 +3,35 @@
   var grid = document.getElementById("grid"), count = document.getElementById("count"),
       budget = document.getElementById("fBudget"), sort = document.getElementById("sort"),
       groups = document.querySelectorAll("[data-filter]");
-  var state = { budget: U.param("budget") || "", body: U.param("body") || "", fuel: U.param("fuel") || "", gearbox: U.param("gearbox") || "", sort: U.param("sort") || "new" };
+  // Only accept URL values that match a real control, so a mistyped link can't produce "£NaN" or a stuck filter
+  function pick(key, el) {
+    var v = U.param(key) || "";
+    var ok = Array.prototype.some.call(el.querySelectorAll("option, .chip"), function (o) { return (o.tagName === "OPTION" ? o.value : o.getAttribute("data-v")) === v; });
+    return ok ? v : "";
+  }
+  var state = {
+    budget: pick("budget", budget),
+    body: pick("body", document.querySelector('[data-filter="body"]')),
+    fuel: pick("fuel", document.querySelector('[data-filter="fuel"]')),
+    gearbox: pick("gearbox", document.querySelector('[data-filter="gearbox"]')),
+    sort: pick("sort", sort) || "new"
+  };
+  var toggle = document.getElementById("filterToggle"), filterRows = document.getElementById("filterRows");
+  function activeCount() { return ["budget", "body", "fuel", "gearbox"].filter(function (k) { return state[k]; }).length; }
+  function syncToggle() {
+    if (!toggle) return;
+    var n = activeCount();
+    toggle.querySelector(".n").textContent = n ? " (" + n + ")" : "";
+  }
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      var open = toggle.getAttribute("aria-expanded") !== "true";
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      filterRows.classList.toggle("open", open);
+    });
+    // Start open on phones only when a filter came in from the URL, so people can see what's applied
+    if (activeCount()) { toggle.setAttribute("aria-expanded", "true"); filterRows.classList.add("open"); }
+  }
 
   function syncControls() {
     budget.value = state.budget; sort.value = state.sort;
@@ -34,6 +62,7 @@
     list.sort(function (a, b) { return (a.status === "reserved") - (b.status === "reserved"); });
     var active = Object.keys(state).some(function (k) { return k !== "sort" && state[k]; });
     count.textContent = list.length + (list.length === 1 ? " car" : " cars") + (active ? " match" : " in stock");
+    syncToggle();
     if (!list.length) {
       grid.innerHTML = '<div class="empty"><h3>Nothing matches those filters right now</h3><p>Stock changes every week. Tell us what you\'re after and we\'ll message you when something suitable comes in, or widen the filters.</p><div class="btn-row"><button class="btn outline" type="button" id="clear">Clear filters</button><a class="btn dark" target="_blank" rel="noopener" href="' + U.waLink("Hi, I'm looking for a " + [state.fuel, state.gearbox, state.body].filter(Boolean).join(" ").toLowerCase() + (state.budget ? " up to " + U.gbp(state.budget) : "") + ". Can you let me know when you get one in?") + '">Ask us to look out for one</a></div></div>';
       document.getElementById("clear").addEventListener("click", function () { state = { budget: "", body: "", fuel: "", gearbox: "", sort: state.sort }; syncControls(); syncUrl(); render(); });

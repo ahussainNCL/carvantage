@@ -1,18 +1,25 @@
 /* Shared site code: settings, header/footer, helpers. Loads on every page. */
 (function () {
-  /* ---- Settings: edit these ---- */
+  /* ---- Settings: edit these ----
+     BEFORE GOING LIVE: phone and whatsapp below are dummy numbers (07700 900xxx is a
+     reserved range that never connects) and the email domain does not match the site
+     domain in CNAME. Replace all three, or every "call us" and "WhatsApp us" button on
+     the site goes nowhere. */
   window.SITE = {
     draft: false,                             // true shows dashed boxes around things to fill in
     name: "Carvantage",
     tagline: "Look closer",
+    url: "https://a.carvantage.uk",           // public address, no trailing slash (used for sharing links)
     town: "Altrincham",                       // where the cars are
     area: "Greater Manchester and Cheshire",  // wider area for the hero
     owner: "Abdullah",                        // owner's first name
-    phone: "07700 900123",                    // shown on the site
-    whatsapp: "447700900123",                 // digits only, international format
-    email: "hello@carvantage.co.uk",
+    phone: "07700 900123",                    // shown on the site. DUMMY: replace
+    whatsapp: "447700900123",                 // digits only, international format. DUMMY: replace
+    email: "hello@carvantage.co.uk",          // DUMMY: replace
     instagram: "carvantage",                  // handle without @
     viewings: "By appointment, seven days a week, usually 9am to 8pm. We'll send the exact location when you book.",
+    heroPhoto: "",                            // e.g. "assets/img/hero.jpg". Empty shows the brand panel
+    ownerPhoto: "",                           // e.g. "assets/img/owner.jpg". Empty hides the photo box
     minPrice: 1000, maxPrice: 5000,
     reviews: [
       /* { name: "Sam", car: "Ford Fiesta", text: "..." } */
@@ -23,7 +30,8 @@
   var ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 42V16h26M84 58v26H58" fill="none" stroke="#FF6A4D" stroke-width="8"/><path d="M62 36A20 20 0 1 0 62 64" fill="none" stroke="#F4F4F2" stroke-width="12"/></svg>';
   var WORDMARK = '<span class="wordmark" aria-hidden="true"><span>carvantage</span></span>';
   var WA = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>';
-  window.ICONS = { logo: ICON, wa: WA };
+  var CAR = '<svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg>';
+  window.ICONS = { logo: ICON, wa: WA, car: CAR };
 
   /* ---- Helpers ---- */
   var U = window.U = {
@@ -36,7 +44,8 @@
     motLabel: function (iso) {
       var d = new Date(iso), now = new Date();
       var months = (d.getFullYear() - now.getFullYear()) * 12 + d.getMonth() - now.getMonth();
-      return { text: "MOT to " + U.monthYear(iso), short: months < 6 };
+      var expired = d < now;
+      return { text: expired ? "MOT expired" : "MOT to " + U.monthYear(iso), date: expired ? "Expired" : U.monthYear(iso), short: months < 6, expired: expired };
     },
     title: function (c) { return c.year + " " + c.make + " " + c.model; },
     esc: function (s) { return String(s).replace(/[&<>"']/g, function (ch) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]; }); },
@@ -55,15 +64,15 @@
       return '<span class="tag' + (good ? " good" : "") + '">' + U.esc(f) + "</span>";
     }).join("");
     var photo = c.photos && c.photos[0]
-      ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" loading="lazy">'
-      : '<div class="placeholder"><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Photos coming soon</span></div>';
+      ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" width="800" height="600" loading="lazy" decoding="async">'
+      : '<div class="placeholder">' + CAR + '<span>Photos coming soon</span></div>';
     var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
     return '<article class="car-card is-' + c.status + '">' +
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +
       '<span class="status status-pill ' + c.status + '">' + statusWord + '</span></div>' +
       '<div class="body">' +
       '<div class="card-heading"><div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + '</p></div><p class="price num">' + U.gbp(c.price) + "</p></div>" +
-      '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>MOT to</dt><dd' + (mot.short ? ' class="short"' : '') + '>' + U.monthYear(c.mot) + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
+      '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>' + (mot.expired ? "MOT" : "MOT to") + '</dt><dd' + (mot.short ? ' class="short"' : '') + '>' + (mot.expired ? "Fresh one before sale" : U.monthYear(c.mot)) + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
       '<div class="tags">' + tags + "</div>" +
       "</div></article>";
   };
@@ -109,7 +118,17 @@
     if (S.draft && /town|area|owner|phone|email|instagram|viewings|bio/.test(key)) { el.classList.add("todo"); el.title = "Placeholder: set '" + key + "' in assets/js/site.js"; }
   });
   if (S.draft) document.body.classList.add("draft");
-  document.querySelectorAll(".todo-text").forEach(function (el) { if (S.draft) { el.classList.add("todo"); el.title = "Placeholder text: replace this"; } });
+  // Placeholder copy only ever shows in draft mode, so nothing half-written reaches the public site
+  document.querySelectorAll(".todo-text").forEach(function (el) {
+    if (S.draft) { el.classList.add("todo"); el.title = "Placeholder text: replace this"; } else { el.hidden = true; }
+  });
+  // Photo slots: show the image when a path is set, otherwise the brand panel (or nothing)
+  document.querySelectorAll("[data-photo]").forEach(function (el) {
+    var key = el.getAttribute("data-photo"), src = S[key];
+    if (src) { el.innerHTML = '<img src="' + U.esc(src) + '" alt="' + U.esc(el.getAttribute("data-alt") || "") + '" decoding="async">'; el.classList.add("has-photo"); el.hidden = false; }
+    else if (el.hasAttribute("data-optional")) { el.hidden = true; }
+    else if (S.draft) { el.classList.add("todo"); el.title = "Placeholder: set '" + key + "' in assets/js/site.js"; }
+  });
 
   /* ---- WhatsApp message sheet ---- */
   U.openSheet = function (opts) {

@@ -4,7 +4,8 @@ Static site, no build step. Open `index.html` or run `python3 -m http.server 808
 
 ## Editing
 
-- **Your details** (town, phone, WhatsApp number, email, Instagram, viewing hours): `assets/js/site.js`, the `SITE` object at the top. Set `draft: false` to remove the dashed placeholder boxes.
+- **Your details** (town, phone, WhatsApp number, email, Instagram, viewing hours): `assets/js/site.js`, the `SITE` object at the top. The phone, WhatsApp and email values in there are dummies: replace them before going live. Set `draft: true` while filling things in (dashed boxes mark placeholders); with `draft: false` any placeholder copy is hidden rather than shown to the public.
+- **Hero and owner photos**: set `heroPhoto` and `ownerPhoto` in `SITE` to image paths (e.g. `assets/img/hero.jpg`). Until then the hero shows the brand panel and the owner photo box is hidden.
 - **Stock**: `assets/js/cars.js`. One object per car. Set `status` to `available`, `reserved` or `sold`. Put photo paths in `photos` (e.g. `assets/img/stock/ab12cde-1.jpg`); an empty list shows "Photos coming soon".
 - **Reviews**: add to `SITE.reviews` in `site.js`; the section appears on the homepage once there's at least one.
 - **Owner bio and photo**: `index.html`, the `#about` section.
