@@ -95,6 +95,7 @@
   /* ---- Motion ---- */
   --fast: 120ms;
   --slow: 240ms;
+  --ease: cubic-bezier(.2, .7, .2, 1);
 
   /* ---- Widths ---- */
   --w-narrow: 560px;

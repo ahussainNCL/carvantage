@@ -47,7 +47,7 @@
   };
 
   /* Car card used on the homepage and browse page */
-  U.carCard = function (c) {
+  U.carCard = function (c, i) {
     var mot = U.motLabel(c.mot);
     var tags = (c.features || []).slice(0, 2).map(function (f) {
       var good = /history|owner|cambelt|two keys|fresh mot|long mot/i.test(f);
@@ -57,7 +57,7 @@
       ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" loading="lazy">'
       : '<div class="placeholder"><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Photos coming soon</span></div>';
     var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
-    return '<article class="car-card is-' + c.status + '">' +
+    return '<article class="car-card reveal is-' + c.status + '" style="--i:' + ((i || 0) % 6) + '">' +
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +
       (c.status === "available" ? "" : '<span class="status status-pill ' + c.status + '">' + statusWord + '</span>') + '</div>' +
       '<div class="body">' +
@@ -128,6 +128,22 @@
     var first = el.querySelector("input, select, textarea, button:not(.close)"); if (first) first.focus();
     return el;
   };
+
+  /* ---- Reveal on scroll ----
+     Below-the-fold blocks fade up as they enter the view. Anything already on screen at load is left alone
+     (no flicker); car cards carry .reveal in their own markup so JS-rendered grids animate in too. */
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -6% 0px", threshold: 0.08 }) : null;
+  function watch() {
+    document.querySelectorAll(".reveal:not(.in)").forEach(function (el) { if (io) io.observe(el); else el.classList.add("in"); });
+  }
+  document.querySelectorAll(".sec-head, .promise, .step, .panel, .law, .bio > *, .car-section, .sold-strip, .keyfacts, .sell-form .group").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    el.classList.add("reveal"); el.style.setProperty("--i", Array.prototype.indexOf.call(el.parentNode.children, el) % 6);
+  });
+  watch();
+  if ("MutationObserver" in window) new MutationObserver(watch).observe(document.body, { childList: true, subtree: true });
 
   /* ---- Reviews (only shown when there are some) ---- */
   var rev = document.getElementById("reviews");
