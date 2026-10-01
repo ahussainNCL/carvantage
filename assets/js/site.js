@@ -55,7 +55,7 @@
     }).join("");
     var photo = c.photos && c.photos[0]
       ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" loading="lazy">'
-      : '<div class="placeholder"><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle cx="46" cy="64" r="16" fill="#23262B" stroke="currentColor" stroke-width="6"/><circle cx="158" cy="64" r="16" fill="#23262B" stroke="currentColor" stroke-width="6"/></svg><span>Photos coming soon</span></div>';
+      : '<div class="placeholder"><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Photos coming soon</span></div>';
     var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
     return '<article class="car-card is-' + c.status + '">' +
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +

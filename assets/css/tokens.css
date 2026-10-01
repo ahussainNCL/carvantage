@@ -1,56 +1,71 @@
 /* Carvantage design tokens
    Two layers: raw colours at the top, then named jobs that the site uses.
-   Change a job, not a raw colour, when a page needs something different. */
+   Change a job, not a raw colour, when a page needs something different.
+   The site is dark throughout: near-black brand bands, a dark graphite page,
+   and slightly lifted graphite cards. Coral is the one accent. */
 
 :root {
-  /* ---- Raw colours (from the brand kit, v3) ---- */
-  --graphite: #23262B;
+  color-scheme: dark;
+
+  /* ---- Raw colours (from the brand kit, v3, plus a dark scale) ---- */
+  --black-1: #0E1013;      /* deepest: hero, footer, brand bands */
+  --graphite-0: #15181C;   /* page */
+  --graphite-1: #1D2024;   /* cards and surfaces */
+  --graphite: #23262B;     /* logo tile, second surface */
   --graphite-2: #2B2F34;
   --graphite-line: #3A3E44;
-  --coral: #E8452A;        /* signal coral: logo corners on light backgrounds */
-  --coral-deep: #C2361E;   /* darker coral: small text and links on light backgrounds (4.8:1 on page grey) */
-  --coral-bright: #FF6A4D; /* bright coral: buttons and highlights, graphite text on top (5.4:1) */
+  --coral: #E8452A;        /* signal coral: logo corners, brackets, hairline accents */
+  --coral-deep: #C2361E;
+  --coral-bright: #FF6A4D; /* bright coral: buttons, links and highlights, graphite text on top (5.4:1) */
   --offwhite: #F4F4F2;
+  --offwhite-2: #E6E6E3;   /* hover on off-white buttons */
   --page-grey: #EFF0F0;
   --white: #FFFFFF;
   --grey-100: #E4E6E8;
-  --grey-300: #D8DADC;
-  --grey-500: #868B91;
-  --grey-600: #5F646A;
-  --grey-700: #5A5E64;
+  --grey-200: #C3C6CB;
+  --grey-300: #B9BDC3;
+  --grey-400: #A3A7AD;
+  --grey-500: #8E939A;
+  --grey-600: #4C5157;
   --ink: #202327;
+  --green-400: #5CC489;
+  --amber-400: #F0B64A;
+  --red-400: #FF7B70;
   --green-700: #2E7D4F;
   --amber-700: #8F5A00;
   --red-700: #B3261E;
 
-  /* ---- Jobs: surfaces and text on the light page ---- */
-  --bg: var(--offwhite);
-  --surface: var(--white);
-  --surface-2: var(--page-grey);
-  --text: var(--ink);
-  --text-2: var(--grey-700);
-  --text-3: var(--grey-600);
-  --line: var(--grey-300);
-  --line-strong: var(--grey-500);
-  --accent: var(--coral-deep);
+  /* ---- Jobs: surfaces and text on the dark page ---- */
+  --bg: var(--graphite-0);
+  --surface: var(--graphite-1);
+  --surface-2: var(--graphite);
+  --text: var(--offwhite);
+  --text-2: var(--grey-300);
+  --text-3: var(--grey-500);
+  --line: var(--graphite-line);
+  --line-strong: var(--grey-600);
+  --accent: var(--coral-bright);
   --accent-bg: var(--coral-bright);
   --accent-ink: var(--graphite);
+  --inverse: var(--offwhite);      /* off-white buttons, chips and badges on the dark page */
+  --inverse-hover: var(--offwhite-2);
+  --on-inverse: var(--black-1);
 
-  /* ---- Jobs: the graphite "brand" panels ---- */
-  --brand: var(--graphite);
-  --brand-card: var(--graphite-2);
-  --brand-line: var(--graphite-line);
+  /* ---- Jobs: the near-black "brand" bands ---- */
+  --brand: var(--black-1);
+  --brand-card: var(--graphite-1);
+  --brand-line: #22262B;
   --on-brand: var(--offwhite);
-  --on-brand-2: #C3C6CB;
-  --on-brand-3: #A3A7AD;
+  --on-brand-2: var(--grey-200);
+  --on-brand-3: var(--grey-400);
   --brand-accent: var(--coral-bright);
 
   /* ---- Jobs: states ---- */
-  --ok: var(--green-700);
-  --warn: var(--amber-700);
-  --sold: var(--grey-600);
-  --error: var(--red-700);
-  --focus: var(--coral);
+  --ok: var(--green-400);
+  --warn: var(--amber-400);
+  --sold: var(--grey-500);
+  --error: var(--red-400);
+  --focus: var(--coral-bright);
 
   /* ---- Type ---- */
   --f-display: "Sora", "Helvetica Neue", Arial, sans-serif;
@@ -86,5 +101,5 @@
   --w-page: 1120px;
 
   /* ---- Shadow ---- */
-  --shadow: 0 1px 2px rgba(32, 35, 39, .06), 0 8px 24px rgba(32, 35, 39, .06);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 32px rgba(0, 0, 0, .35);
 }
