@@ -49,22 +49,19 @@
   /* Car card used on the homepage and browse page */
   U.carCard = function (c, i) {
     var mot = U.motLabel(c.mot);
-    var tags = (c.features || []).slice(0, 2).map(function (f) {
-      var good = /history|owner|cambelt|two keys|fresh mot|long mot/i.test(f);
-      return '<span class="tag' + (good ? " good" : "") + '">' + U.esc(f) + "</span>";
-    }).join("");
+    var good = (c.features || []).filter(function (f) { return /history|owner|cambelt|two keys|fresh mot|long mot/i.test(f); }).slice(0, 1);
     var photo = c.photos && c.photos[0]
       ? '<img src="' + U.esc(c.photos[0]) + '" alt="' + U.esc(U.title(c)) + '" loading="lazy">'
       : '<div class="placeholder"><svg class="car-shape" viewBox="0 0 200 80" fill="currentColor" aria-hidden="true"><path d="M8 64 3 42Q2 31 9 25L31 7Q38 1 48 1h62q11 0 19 7l26 19 31 5q11 2 12 13v11q0 8-8 8Z"/><circle class="hub" cx="46" cy="64" r="16" stroke="currentColor" stroke-width="6"/><circle class="hub" cx="158" cy="64" r="16" stroke="currentColor" stroke-width="6"/></svg><span>Photos coming soon</span></div>';
     var statusWord = { available: "Available", reserved: "Reserved", sold: "Sold" }[c.status];
-    return '<article class="car-card reveal is-' + c.status + '" style="--i:' + ((i || 0) % 6) + '">' +
+    return '<article class="car-card reveal is-' + c.status + '" style="--i:' + ((i || 0) % 8) + '">' +
       '<div class="shot">' + photo + '<span class="mark">' + ICON + '</span>' +
       (c.status === "available" ? "" : '<span class="status status-pill ' + c.status + '">' + statusWord + '</span>') + '</div>' +
       '<div class="body">' +
-      '<div><h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + "</p></div>" +
       '<p class="price num">' + U.gbp(c.price) + "</p>" +
-      '<p class="facts num"><span>' + U.miles(c.miles) + "</span><span>" + c.fuel + "</span><span>" + c.gearbox + "</span><span class=\"mot\">" + mot.text + "</span></p>" +
-      '<div class="tags">' + tags + "</div>" +
+      '<h3><a href="car.html?id=' + U.esc(c.id) + '">' + U.esc(U.title(c)) + '</a></h3><p class="trim">' + U.esc(c.trim) + "</p>" +
+      '<ul class="specs num"><li>' + c.miles.toLocaleString("en-GB") + " miles</li><li>" + c.fuel + "</li><li>" + c.gearbox + "</li><li>" + c.body + "</li></ul>" +
+      '<div class="foot"><span class="mot' + (mot.short ? " short" : "") + '">' + mot.text + "</span>" + good.map(function (f) { return '<span class="tag good">' + U.esc(f) + "</span>"; }).join("") + "</div>" +
       "</div></article>";
   };
 
@@ -80,9 +77,12 @@
     head.className = "site-head";
     head.innerHTML = (S.draft ? '<div class="draft-note"><div class="wrap"><span>Draft: things in <i></i> dashed boxes are placeholders to replace in <code>assets/js/site.js</code> and <code>cars.js</code>.</span></div></div>' : "") +
       '<div class="wrap"><a class="lockup" href="index.html" aria-label="' + S.name + ' home">' + ICON + "<span>carvantage</span></a>" +
-      '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>' +
       '<nav class="site-nav" id="site-nav" aria-label="Main">' + nav + "</nav>" +
-      '<a class="btn wa sm" href="' + U.waLink("Hi " + S.owner + ", I'm looking at your cars on the website.") + '" target="_blank" rel="noopener" aria-label="WhatsApp us">' + WA + '<span class="t">WhatsApp us</span></a></div>';
+      '<a class="btn wa sm" href="' + U.waLink("Hi " + S.owner + ", I'm looking at your cars on the website.") + '" target="_blank" rel="noopener" aria-label="WhatsApp us">' + WA + '<span class="t">WhatsApp us</span></a>' +
+      '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button></div>';
+    // Sticky things below the header (filter bar, buy box) offset by its real height, draft banner included
+    var setHeadH = function () { document.documentElement.style.setProperty("--head-h", head.offsetHeight + "px"); };
+    setHeadH(); window.addEventListener("resize", setHeadH);
     var btn = head.querySelector(".menu-btn"), menu = head.querySelector(".site-nav");
     btn.addEventListener("click", function () {
       var open = menu.classList.toggle("open");
@@ -93,7 +93,7 @@
   var foot = document.getElementById("site-foot");
   if (foot) {
     foot.className = "site-foot";
-    foot.innerHTML = '<div class="wrap"><a class="lockup" href="index.html" style="font-size:1.2rem">' + ICON + "<span>carvantage</span></a>" +
+    foot.innerHTML = '<div class="wrap"><a class="lockup" href="index.html" style="font-size:1.1rem">' + ICON + "<span>carvantage</span></a>" +
       "<nav aria-label=\"Footer\">" + nav + '<a href="mailto:' + S.email + '">' + S.email + "</a></nav>" +
       '<p class="legal">' + S.name + " is a sole trader selling used cars in <span data-cfg=\"town\"></span>. Prices include VAT where applicable. No admin fees. © " + new Date().getFullYear() + "</p></div>";
   }
@@ -138,9 +138,9 @@
   function watch() {
     document.querySelectorAll(".reveal:not(.in)").forEach(function (el) { if (io) io.observe(el); else el.classList.add("in"); });
   }
-  document.querySelectorAll(".sec-head, .promise, .step, .panel, .law, .bio > *, .car-section, .sold-strip, .keyfacts, .sell-form .group").forEach(function (el) {
+  document.querySelectorAll(".sec-head, .tile, .step, .panel, .law, .bio > *, .car-section, .sold-strip, .keyfacts, .sell-form .group").forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight) return;
-    el.classList.add("reveal"); el.style.setProperty("--i", Array.prototype.indexOf.call(el.parentNode.children, el) % 6);
+    el.classList.add("reveal"); el.style.setProperty("--i", Array.prototype.indexOf.call(el.parentNode.children, el) % 8);
   });
   watch();
   if ("MutationObserver" in window) new MutationObserver(watch).observe(document.body, { childList: true, subtree: true });

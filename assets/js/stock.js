@@ -1,23 +1,21 @@
-/* Browse page: filters, sort, URL state */
+/* Browse page: filter bar, sort, URL state */
 (function () {
-  var grid = document.getElementById("grid"), count = document.getElementById("count"),
-      budget = document.getElementById("fBudget"), sort = document.getElementById("sort"),
-      groups = document.querySelectorAll("[data-filter]"),
-      bar = document.getElementById("filters"), toggle = document.getElementById("filtersToggle"), toggleCount = document.getElementById("filtersCount");
+  var grid = document.getElementById("grid"), count = document.getElementById("count"), sort = document.getElementById("sort"), clearBtn = document.getElementById("clearBtn");
+  var sel = { budget: document.getElementById("fBudget"), body: document.getElementById("fBody"), fuel: document.getElementById("fFuel"), gearbox: document.getElementById("fGearbox") };
+  var keys = Object.keys(sel);
   var state = { budget: U.param("budget") || "", body: U.param("body") || "", fuel: U.param("fuel") || "", gearbox: U.param("gearbox") || "", sort: U.param("sort") || "new" };
 
   function syncControls() {
-    budget.value = state.budget; sort.value = state.sort;
-    groups.forEach(function (g) {
-      var key = g.getAttribute("data-filter");
-      g.querySelectorAll(".chip").forEach(function (c) { c.setAttribute("aria-pressed", c.getAttribute("data-v") === state[key] ? "true" : "false"); });
-    });
+    keys.forEach(function (k) { sel[k].value = state[k]; sel[k].classList.toggle("active", !!state[k]); });
+    sort.value = state.sort;
+    clearBtn.hidden = !keys.some(function (k) { return state[k]; });
   }
   function syncUrl() {
     var p = new URLSearchParams();
     Object.keys(state).forEach(function (k) { if (state[k] && !(k === "sort" && state[k] === "new")) p.set(k, state[k]); });
     history.replaceState(null, "", location.pathname + (p.toString() ? "?" + p : ""));
   }
+  function clear() { state = { budget: "", body: "", fuel: "", gearbox: "", sort: state.sort }; syncControls(); render(); }
   function render() {
     var max = Number(state.budget) || Infinity;
     var list = U.available().filter(function (c) {
@@ -33,31 +31,19 @@
     list.sort(sorters[state.sort] || sorters["new"]);
     // reserved cars go after available ones whatever the sort
     list.sort(function (a, b) { return (a.status === "reserved") - (b.status === "reserved"); });
-    var activeKeys = ["budget", "body", "fuel", "gearbox"].filter(function (k) { return state[k]; }), active = activeKeys.length > 0;
-    if (toggleCount) toggleCount.textContent = active ? activeKeys.length + " on" : "";
+    var active = keys.some(function (k) { return state[k]; });
     count.textContent = list.length + (list.length === 1 ? " car" : " cars") + (active ? " match" : " in stock");
     if (!list.length) {
-      grid.innerHTML = '<div class="empty"><h3>Nothing matches those filters right now</h3><p>Stock changes every week. Tell us what you\'re after and we\'ll message you when something suitable comes in, or widen the filters.</p><div class="btn-row"><button class="btn outline" type="button" id="clear">Clear filters</button><a class="btn dark" target="_blank" rel="noopener" href="' + U.waLink("Hi, I'm looking for a " + [state.fuel, state.gearbox, state.body].filter(Boolean).join(" ").toLowerCase() + (state.budget ? " up to " + U.gbp(state.budget) : "") + ". Can you let me know when you get one in?") + '">Ask us to look out for one</a></div></div>';
-      document.getElementById("clear").addEventListener("click", function () { state = { budget: "", body: "", fuel: "", gearbox: "", sort: state.sort }; syncControls(); syncUrl(); render(); });
+      grid.innerHTML = '<div class="empty"><h3>Nothing matches those filters right now</h3><p>Stock changes every week. Tell us what you\'re after and we\'ll message you when something suitable comes in, or widen the filters.</p><div class="btn-row"><button class="btn outline" type="button" id="clearEmpty">Clear filters</button><a class="btn dark" target="_blank" rel="noopener" href="' + U.waLink("Hi, I'm looking for a " + [state.fuel, state.gearbox, state.body].filter(Boolean).join(" ").toLowerCase() + (state.budget ? " up to " + U.gbp(state.budget) : "") + ". Can you let me know when you get one in?") + '">Ask us to look out for one</a></div></div>';
+      document.getElementById("clearEmpty").addEventListener("click", clear);
     } else {
       grid.innerHTML = list.map(U.carCard).join("");
     }
     syncUrl();
   }
-  groups.forEach(function (g) {
-    g.addEventListener("click", function (e) {
-      var chip = e.target.closest(".chip"); if (!chip) return;
-      state[g.getAttribute("data-filter")] = chip.getAttribute("data-v"); syncControls(); render();
-    });
-  });
-  budget.addEventListener("change", function () { state.budget = budget.value; render(); });
+  keys.forEach(function (k) { sel[k].addEventListener("change", function () { state[k] = sel[k].value; syncControls(); render(); }); });
   sort.addEventListener("change", function () { state.sort = sort.value; render(); });
-  if (toggle) {
-    toggle.addEventListener("click", function () {
-      var open = bar.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-  }
+  clearBtn.addEventListener("click", clear);
   syncControls(); render();
 
   var sold = (window.CARS || []).filter(function (c) { return c.status === "sold"; });
