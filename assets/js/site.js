@@ -44,7 +44,7 @@
       var d = new Date(iso), now = new Date();
       var months = (d.getFullYear() - now.getFullYear()) * 12 + d.getMonth() - now.getMonth();
       var expired = d < now;
-      return { text: expired ? "MOT expired" : "MOT to " + U.monthYear(iso), date: expired ? "Expired" : U.monthYear(iso), short: months < 6, expired: expired };
+      return { text: expired ? "MOT expired" : "MOT to " + U.monthYear(iso), date: expired ? "Expired" : U.monthYear(iso), short: months < 6, expired: expired, months: months };
     },
     title: function (c) { return c.year + " " + c.make + " " + c.model; },
     esc: function (s) { return String(s).replace(/[&<>"']/g, function (ch) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]; }); },
@@ -108,6 +108,7 @@
       '<span class="status status-pill ' + c.status + '">' + statusWord + '</span></div>' +
       '<div class="body">' +
       '<div class="card-heading"><div><p class="card-year num">' + c.year + ' · ' + U.esc(c.body === 'MPV' ? 'People carrier' : c.body) + '</p><h3><a href="car.html?id=' + U.esc(c.id) + '" aria-label="' + U.esc('View ' + U.title(c) + ' ' + c.trim) + '">' + U.esc(c.make + ' ' + c.model) + '</a></h3><p class="trim">' + U.esc(c.trim) + '</p></div><p class="price num">' + U.gbp(c.price) + "</p></div>" +
+      '<ul class="trust-chips" aria-label="Checked before listing"><li>History</li><li>Marks</li><li>' + (mot.expired || !c.mot ? "MOT" : (mot.months <= 0 ? "MOT due" : mot.months + " mo MOT")) + "</li></ul>" +
       '<dl class="card-spec num"><div><dt>Mileage</dt><dd>' + c.miles.toLocaleString("en-GB") + '</dd></div><div><dt>Fuel</dt><dd>' + U.esc(c.fuel) + '</dd></div><div><dt>Gearbox</dt><dd>' + U.esc(c.gearbox) + "</dd></div></dl>" +
       '<div class="tags">' + tags + "</div>" +
       '<div class="card-footer"><span' + (mot.short ? ' class="short"' : '') + '>' + (mot.expired ? 'Fresh MOT before sale' : 'MOT to ' + U.monthYear(c.mot)) + '</span><span class="card-open" aria-hidden="true">See details ' + ARROW + '</span></div>' +
@@ -150,6 +151,20 @@
     foot.innerHTML = '<div class="wrap"><a class="lockup" href="index.html" aria-label="Carvantage home" style="font-size:1.2rem">' + WORDMARK + "</a>" +
       "<nav aria-label=\"Footer\">" + nav + (S.email ? '<a href="mailto:' + S.email + '">' + U.esc(S.email) + "</a>" : "") + "</nav>" +
       '<p class="legal">' + S.name + " is a sole trader selling used cars in <span data-cfg=\"town\"></span>. Prices include VAT where applicable. No admin fees. © " + new Date().getFullYear() + "</p></div>";
+  }
+
+  /* Sticky WhatsApp + Call bar on small phones only (CSS hides above 560px).
+     On the car page, CSS hides this when .action-bar is present so the two never stack. */
+  var PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7.5 3.5h3l1.2 4.2-1.8 1.2a12 12 0 0 0 5.2 5.2l1.2-1.8 4.2 1.2v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3.5 5.7 2 2 0 0 1 5.5 3.5Z"/></svg>';
+  if (!document.querySelector(".mobile-contact")) {
+    var sticky = document.createElement("nav");
+    sticky.className = "mobile-contact";
+    sticky.setAttribute("aria-label", "Quick contact");
+    sticky.innerHTML =
+      '<a class="mobile-contact-wa" href="' + U.waLink("Hi " + S.owner + ", I'm looking at your cars on the website.") + '" target="_blank" rel="noopener">' + WA + '<span>WhatsApp</span></a>' +
+      '<a class="mobile-contact-call" href="tel:' + S.phone.replace(/\s/g, "") + '">' + PHONE + '<span>Call</span></a>';
+    document.body.appendChild(sticky);
+    document.body.classList.add("has-mobile-contact");
   }
 
   /* ---- Icons and budget selects that would otherwise be pasted into each page ---- */

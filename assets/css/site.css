@@ -222,6 +222,9 @@ body.draft .todo { outline: 2px dashed var(--coral); outline-offset: 3px; border
 .car-card h3 a { text-decoration: none; }
 .car-card h3 a::after { content: ""; position: absolute; inset: 0; }
 .car-card .trim { color: var(--text-3); font-size: var(--t0); line-height: 1.4; margin-top: 5px; }
+.trust-chips { list-style: none; margin: calc(var(--s2) * -1) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.trust-chips li { display: inline-flex; align-items: center; gap: 4px; font-family: var(--f-label); font-size: var(--t-1); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ok); line-height: 1.3; }
+.trust-chips li::before { content: ""; width: 10px; height: 6px; border-left: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; transform: rotate(-45deg); margin-top: -2px; flex: none; }
 .car-card .card-heading { display: flex; justify-content: space-between; gap: var(--s3); align-items: start; }
 .car-card .card-heading > div { min-width: 0; }
 .car-card .card-year { font-family: var(--f-label); font-size: var(--t-1); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; line-height: 1.3; }
@@ -682,3 +685,50 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .hero-media.has-photo img { width: 100%; height: 100%; min-height: 320px; object-fit: cover; }
 .owner-card.has-photo { padding: 0; overflow: hidden; }
 .owner-card.has-photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+
+
+/* ---- Sticky mobile contact bar (phones ≤560px, matches hero mobile breakpoint) ----
+   Hidden on larger screens. Yields to the car-page .action-bar when that exists. */
+.mobile-contact { display: none; }
+@media (max-width: 560px) {
+  .mobile-contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s2);
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 30;
+    padding: var(--s2) var(--s3) calc(var(--s2) + env(safe-area-inset-bottom, 0px));
+    background: rgba(244, 244, 242, .96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -8px 28px rgba(14, 16, 19, .08);
+  }
+  .mobile-contact a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s2);
+    min-height: 48px;
+    padding: var(--s2) var(--s3);
+    border-radius: var(--r-pill);
+    font-family: var(--f-label);
+    font-weight: 600;
+    font-size: var(--t0);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .mobile-contact svg { width: 20px; height: 20px; flex: none; }
+  .mobile-contact-wa { background: var(--inverse); color: var(--on-inverse); }
+  .mobile-contact-wa:hover { background: var(--inverse-hover); }
+  .mobile-contact-call { background: var(--accent-bg); color: var(--accent-ink); }
+  .mobile-contact-call:hover { background: #FF7D63; }
+  /* Room so footer / last content isn't covered by the bar */
+  body.has-mobile-contact { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  /* Car detail page already has its own fixed action bar — don't stack both */
+  body:has(.action-bar) .mobile-contact { display: none; }
+  body:has(.action-bar).has-mobile-contact { padding-bottom: 0; }
+}
