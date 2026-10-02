@@ -262,7 +262,7 @@ body.draft .todo { outline: 2px dashed var(--coral); outline-offset: 3px; border
 .promise p { color: var(--text-2); font-size: var(--t1); line-height: var(--lh-body); }
 
 /* Buy steps: 4-col grid on desktop; swipeable scroll-snap cards ≤560px */
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s6); counter-reset: step; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s6); counter-reset: step; list-style: none; margin: 0; padding: 0; }
 @media (max-width: 960px) { .steps { grid-template-columns: repeat(2, 1fr); } }
 .step {
   --step-accent: var(--coral);
