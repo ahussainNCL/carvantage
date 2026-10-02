@@ -25,6 +25,53 @@
   var latest = U.available().sort(function (a, b) { return b.added.localeCompare(a.added); }).slice(0, 3);
   document.getElementById("latestGrid").innerHTML = latest.map(U.carCard).join("");
 
+
+  /* Buy-steps: sync scroll-snap dots on narrow viewports (CSS handles the carousel) */
+  (function initBuySteps() {
+    var track = document.querySelector(".steps");
+    var dots = document.querySelectorAll(".steps-dots .steps-dot");
+    if (!track || !dots.length) return;
+    var cards = Array.prototype.slice.call(track.querySelectorAll(".step"));
+    if (cards.length !== dots.length) return;
+
+    function scrollLeftFor(i) {
+      var trackBox = track.getBoundingClientRect();
+      var cardBox = cards[i].getBoundingClientRect();
+      return cardBox.left - trackBox.left + track.scrollLeft;
+    }
+    function activeIndex() {
+      var origin = track.getBoundingClientRect().left, best = 0, bestDist = Infinity;
+      for (var i = 0; i < cards.length; i++) {
+        var d = Math.abs(cards[i].getBoundingClientRect().left - origin);
+        if (d < bestDist) { bestDist = d; best = i; }
+      }
+      return best;
+    }
+    function setCurrent(i) {
+      dots.forEach(function (dot, n) {
+        if (n === i) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    }
+    function goTo(i) {
+      if (!window.matchMedia("(max-width: 560px)").matches) return;
+      track.scrollTo({ left: scrollLeftFor(i), behavior: "smooth" });
+      setCurrent(i);
+    }
+    var ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { setCurrent(activeIndex()); ticking = false; });
+    }, { passive: true });
+    dots.forEach(function (dot, i) {
+      dot.addEventListener("click", function () { goTo(i); });
+    });
+    cards.forEach(function (card, i) {
+      card.addEventListener("focus", function () { goTo(i); });
+    });
+  })();
+
   // Structured data for the business, built from SITE so it never drifts from the page
   var S = window.SITE, ld = document.createElement("script"); ld.type = "application/ld+json";
   ld.textContent = JSON.stringify({
